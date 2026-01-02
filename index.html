@@ -314,6 +314,7 @@ function createCat(el, index) {
       collected.push(el);
       cat.isCollected = true;
       cat.classList.add('collected');
+      // НИЧЕГО не трогаем в vx, vy, rotationSpeed — кот продолжает летать
       updateCollectedDisplay();
       showCompliment(getRandomCompliment());
       createHearts();
