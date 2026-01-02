@@ -100,27 +100,34 @@ body {
 
 .winmsg {
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
-  backdrop-filter:blur(25px);padding:28px;border-radius:22px;
-  box-shadow:0 25px 70px rgba(0,0,0,0.5);text-align:center;font-size:18px;
-  max-width:440px;border:2px solid rgba(255,255,255,0.9);font-weight:500;
-  animation:victoryPulse 2s infinite;display:none;z-index:300;line-height:1.4
+  background:linear-gradient(135deg,#fff8e1 0%,#fff3e0 100%);
+  backdrop-filter:blur(25px);padding:35px;border-radius:25px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);text-align:center;font-size:16px;
+  max-width:460px;border:3px solid #d4af37;z-index:300;
+  animation:victoryPulse 2.5s infinite;line-height:1.5
 }
-.winmsg .phrase1{display:none}
-.winmsg div{font-size:17px;color:#1e3c72;margin:8px 0;font-weight:600}
-.winmsg .phrase2 {
-  font-size:16px;color:#2a5298;background:rgba(255,255,255,0.7);
-  padding:8px 14px;border-radius:14px;display:inline-block;
-  box-shadow:0 4px 15px rgba(0,0,0,0.2);border:2px solid rgba(42,82,152,0.4);
-  margin:6px 0;font-weight:700
+.winmsg h2 {
+  color:#b8860b;font-size:22px;font-weight:800;margin-bottom:20px;
+  text-shadow:0 2px 4px rgba(0,0,0,0.1);letter-spacing:1px
 }
-@keyframes victoryPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.02)}}
+.winmsg .final-phrase {
+  display:block;margin:12px 0;padding:15px 20px;
+  background:linear-gradient(135deg,rgba(255,248,225,0.9),rgba(255,243,224,0.8));
+  border:2px solid #daa520;border-radius:18px;box-shadow:0 8px 25px rgba(218,165,32,0.3);
+  color:#8b4513;font-weight:700;font-size:17px;letter-spacing:0.5px;
+  position:relative;overflow:hidden;animation:phraseGlow 3s infinite
+}
+.winmsg .final-phrase:nth-child(3){animation-delay:0.5s}
+.winmsg .final-phrase:nth-child(4){animation-delay:1s}
+@keyframes victoryPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.03)}}
+@keyframes phraseGlow{0%,100%{box-shadow:0 8px 25px rgba(218,165,32,0.3);border-color:#daa520}50%{box-shadow:0 12px 35px rgba(218,165,32,0.6);border-color:#ffd700}}
 
 @media(max-width:768px){
   .cat{width:46px;height:46px;font-size:16px}
   .cat span{font-size:11px!important}
   .header{font-size:14px;padding:8px 18px}
-  .winmsg{padding:22px;font-size:16px;max-width:90vw}
+  .winmsg{padding:25px;font-size:15px;max-width:90vw}
+  .winmsg h2{font-size:20px}
   .collected-list{bottom:36px;left:8px;font-size:12px}
   .collected-count{bottom:8px;right:8px}
 }
@@ -131,15 +138,35 @@ body {
 <div class="collected-count">H→He→Li→Be→B→C→N→O→F→Ne→Na→Mg→Al→Si→P</div>
 <div class="collected-list">Собрано: <span id="collectedItems"></span></div>
 <div class="message" id="msg"><div id="msgText">Начинай с H</div></div>
-<div class="winmsg" id="winmsg">
-  <div>"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь"</div>
-  <div class="phrase2">"Я далеко не дурак, давай попробуем еще раз"</div>
-  <div class="phrase2">"Я стану лучшим в твоих глазах, просто поверь мне снова."</div>
+<div class="winmsg" id="winmsg" style="display:none">
+  <h2>🎉 ПОЗДРАВЛЯЮ! 🎉</h2>
+  <div class="final-phrase">"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь"</div>
+  <div class="final-phrase">"Я далеко не дурак, давай попробуем еще раз"</div>
+  <div class="final-phrase">"Я стану лучшим в твоих глазах, просто поверь мне снова."</div>
 </div>
 
 <script>
 const elements=['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P'];
 const colors=['#e91e63','#4db6ac','#2196f3','#ffeb3b','#ff9800','#f44336','#9c27b0','#cddc39','#e91e63','#ffeb3b','#f44336','#26a69a','#26c6da','#3f51b5','#9e9e9e'];
+
+const compliments = [
+  'Ты невероятно красивая! 💖',
+  'У тебя самая очаровательная улыбка! 😍',
+  'Твои глаза завораживают! ✨',
+  'Ты делаешь мир ярче! 🌟',
+  'С тобой время летит незаметно! ⏰❤️',
+  'Ты самая нежная на свете! 🌸',
+  'Каждый день с тобой — счастье! 💕',
+  'Ты мой самый сладкий сон! 😘',
+  'Обожаю твой голос! 🎵',
+  'Ты идеальная! Просто WOW! 🤩',
+  'С тобой я чувствую себя особенным! 🥰',
+  'Твоя энергия заразительна! ⚡',
+  'Ты — моя муза! 🎨',
+  'Люблю тебя больше всего! 💝',
+  'Ты королева моего сердца! 👑'
+];
+
 let collected=[],usedCompliments=[];
 
 function shuffleArray(array){
@@ -148,6 +175,15 @@ function shuffleArray(array){
     [array[i],array[j]]=[array[j],array[i]]
   }
   return array
+}
+
+function getRandomCompliment(){
+  const available = compliments.filter((_,i)=>!usedCompliments.includes(i));
+  if(available.length===0) usedCompliments=[];
+  const idx = Math.floor(Math.random()*available.length);
+  const complimentIdx = compliments.indexOf(available[idx]);
+  usedCompliments.push(complimentIdx);
+  return available[idx];
 }
 
 function updateCollectedDisplay(){
@@ -166,13 +202,13 @@ function createCat(el){
   cat.style.background=`linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
   cat.innerHTML=`🐱<br><span>${el}</span>`;
   cat.onclick=()=>{
-    if(collected.includes(el))return showCompliment('Уже собран');
+    if(collected.includes(el))return showCompliment('Уже собран 💔');
     const next=collected.length;
     if(el===elements[next]){
       collected.push(el);
       cat.classList.add('collected');
       updateCollectedDisplay();
-      showCompliment('Верно!');
+      showCompliment(getRandomCompliment());
       createHearts();
       if(collected.length===15)setTimeout(()=>document.getElementById('winmsg').style.display='block',1200)
     }else showCompliment(elements[next])
@@ -192,16 +228,17 @@ function showCompliment(text){
 }
 
 function createHearts(){
-  for(let i=0;i<10;i++)setTimeout(()=>createHeart(),50*i)
+  for(let i=0;i<15;i++)setTimeout(()=>createHeart(),40*i)
 }
 
 function createHeart(){
   const h=document.createElement('div');
-  h.className='hearts';h.innerHTML='✨';
+  h.className='hearts';h.innerHTML='💖';
   h.style.left=(Math.random()*90+5)+'vw';
   h.style.top='85vh';
+  h.style.color='#ff69b4';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),3000)
+  setTimeout(()=>h.remove(),3500)
 }
 
 initCats();
