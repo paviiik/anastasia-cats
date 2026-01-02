@@ -201,7 +201,7 @@ body {
 .winmsg .final-phrase {
   display:block;margin:18px 0;padding:20px 25px;
   background:linear-gradient(135deg,rgba(30,60,114,0.08),rgba(42,82,152,0.1));
-  border:2px солid rgba(30,60,114,0.4);border-radius:20px;
+  border:2px solid rgba(30,60,114,0.4);border-radius:20px;
   box-shadow:0 10px 30px rgba(30,60,114,0.3);
   color:#1e3c72;font-weight:700;font-size:16px;letter-spacing:0.4px;
   position:relative;overflow:hidden;animation:phraseGlow 3s infinite;
@@ -297,10 +297,11 @@ function createCat(el, index) {
   
   cat.radius = 27.5;
   cat.isCollected = false;
-  cat.angle = Math.random() * Math.PI * 2;
-  cat.baseSpeed = 0.8 + Math.random() * 0.6;
-  cat.vx = Math.cos(cat.angle) * cat.baseSpeed;
-  cat.vy = Math.sin(cat.angle) * cat.baseSpeed;
+  cat.baseSpeed = 1.2 + Math.random() * 0.8; // Увеличена базовая скорость: 1.2-2.0
+  // ✅ ГАРАНТИРОВАННАЯ НАЧАЛЬНАЯ СКОРОСТЬ ПРЯМО ЗДЕСЬ
+  const angle = Math.random() * Math.PI * 2;
+  cat.vx = Math.cos(angle) * cat.baseSpeed;
+  cat.vy = Math.sin(angle) * cat.baseSpeed;
   cat.rotation = Math.random() * 360;
   cat.rotationSpeed = (Math.random() - 0.5) * 8;
   
@@ -391,26 +392,15 @@ function updateBounds() {
   };
 }
 
-// Нормализация скорости, чтобы не было "стоячих" котов
 function ensureMoving(cat) {
   const currentSpeed = Math.sqrt(cat.vx * cat.vx + cat.vy * cat.vy);
-  const minSpeed = cat.baseSpeed * 0.6;
+  const minSpeed = cat.baseSpeed * 0.7;
 
-  // Если скорость слишком мала или почти всё движение только по одной оси
-  if (
-    currentSpeed < minSpeed ||
-    Math.abs(cat.vx) < 0.05 && Math.abs(cat.vy) < 0.05
-  ) {
+  if (currentSpeed < minSpeed) {
     const angle = Math.random() * Math.PI * 2;
     cat.vx = Math.cos(angle) * cat.baseSpeed;
     cat.vy = Math.sin(angle) * cat.baseSpeed;
-    return;
   }
-
-  // Чуть нормализуем до baseSpeed, чтобы не "залипала" на месте
-  const k = cat.baseSpeed / currentSpeed;
-  cat.vx *= k;
-  cat.vy *= k;
 }
 
 function animate() {
@@ -421,39 +411,41 @@ function animate() {
     cat.y += cat.vy;
     cat.rotation += cat.rotationSpeed;
     
+    // Отскок от границ
     if (cat.x - cat.radius < bounds.left) {
       cat.x = bounds.left + cat.radius;
-      cat.vx = Math.abs(cat.vx);
+      cat.vx = Math.abs(cat.vx) * 0.9; // Немного теряем скорость при отскоке
     }
     if (cat.x + cat.radius > bounds.right) {
       cat.x = bounds.right - cat.radius;
-      cat.vx = -Math.abs(cat.vx);
+      cat.vx = -Math.abs(cat.vx) * 0.9;
     }
     if (cat.y - cat.radius < bounds.top) {
       cat.y = bounds.top + cat.radius;
-      cat.vy = Math.abs(cat.vy);
+      cat.vy = Math.abs(cat.vy) * 0.9;
     }
     if (cat.y + cat.radius > bounds.bottom) {
       cat.y = bounds.bottom - cat.radius;
-      cat.vy = -Math.abs(cat.vy);
+      cat.vy = -Math.abs(cat.vy) * 0.9;
     }
     
+    // Поддерживаем скорость
     const currentSpeed = Math.sqrt(cat.vx * cat.vx + cat.vy * cat.vy);
     if (currentSpeed < cat.baseSpeed * 0.85) {
       const angle = Math.atan2(cat.vy, cat.vx || 0.0001);
       cat.vx = Math.cos(angle) * cat.baseSpeed;
       cat.vy = Math.sin(angle) * cat.baseSpeed;
     } else {
-      cat.vx *= 0.996;
-      cat.vy *= 0.996;
+      cat.vx *= 0.998; // Очень слабое трение
+      cat.vy *= 0.998;
     }
     
-    if (Math.random() < 0.03) {
-      cat.vx += (Math.random() - 0.5) * 0.18;
-      cat.vy += (Math.random() - 0.5) * 0.18;
+    // Случайные изменения направления
+    if (Math.random() < 0.02) {
+      cat.vx += (Math.random() - 0.5) * 0.25;
+      cat.vy += (Math.random() - 0.5) * 0.25;
     }
 
-    // Гарантируем, что кот реально двигается
     ensureMoving(cat);
     
     cat.style.left = `${cat.x}px`;
@@ -461,6 +453,7 @@ function animate() {
     cat.style.transform = `rotate(${cat.rotation}deg)`;
   });
   
+  // Проверка столкновений
   for (let i = 0; i < cats.length; i++) {
     for (let j = i + 1; j < cats.length; j++) {
       const cat1 = cats[i];
