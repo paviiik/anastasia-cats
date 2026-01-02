@@ -201,7 +201,7 @@ body {
 .winmsg .final-phrase {
   display:block;margin:18px 0;padding:20px 25px;
   background:linear-gradient(135deg,rgba(30,60,114,0.08),rgba(42,82,152,0.1));
-  border:2px solid rgba(30,60,114,0.4);border-radius:20px;
+  border:2px солid rgba(30,60,114,0.4);border-radius:20px;
   box-shadow:0 10px 30px rgba(30,60,114,0.3);
   color:#1e3c72;font-weight:700;font-size:16px;letter-spacing:0.4px;
   position:relative;overflow:hidden;animation:phraseGlow 3s infinite;
@@ -314,7 +314,6 @@ function createCat(el, index) {
       collected.push(el);
       cat.isCollected = true;
       cat.classList.add('collected');
-      // НИЧЕГО не трогаем в vx, vy, rotationSpeed — кот продолжает летать
       updateCollectedDisplay();
       showCompliment(getRandomCompliment());
       createHearts();
@@ -392,11 +391,32 @@ function updateBounds() {
   };
 }
 
+// Нормализация скорости, чтобы не было "стоячих" котов
+function ensureMoving(cat) {
+  const currentSpeed = Math.sqrt(cat.vx * cat.vx + cat.vy * cat.vy);
+  const minSpeed = cat.baseSpeed * 0.6;
+
+  // Если скорость слишком мала или почти всё движение только по одной оси
+  if (
+    currentSpeed < minSpeed ||
+    Math.abs(cat.vx) < 0.05 && Math.abs(cat.vy) < 0.05
+  ) {
+    const angle = Math.random() * Math.PI * 2;
+    cat.vx = Math.cos(angle) * cat.baseSpeed;
+    cat.vy = Math.sin(angle) * cat.baseSpeed;
+    return;
+  }
+
+  // Чуть нормализуем до baseSpeed, чтобы не "залипала" на месте
+  const k = cat.baseSpeed / currentSpeed;
+  cat.vx *= k;
+  cat.vy *= k;
+}
+
 function animate() {
   const bounds = updateBounds();
   
   cats.forEach(cat => {
-    // Все коты (включая собранные) продолжают летать
     cat.x += cat.vx;
     cat.y += cat.vy;
     cat.rotation += cat.rotationSpeed;
@@ -432,6 +452,9 @@ function animate() {
       cat.vx += (Math.random() - 0.5) * 0.18;
       cat.vy += (Math.random() - 0.5) * 0.18;
     }
+
+    // Гарантируем, что кот реально двигается
+    ensureMoving(cat);
     
     cat.style.left = `${cat.x}px`;
     cat.style.top = `${cat.y}px`;
@@ -442,7 +465,6 @@ function animate() {
     for (let j = i + 1; j < cats.length; j++) {
       const cat1 = cats[i];
       const cat2 = cats[j];
-      // Столкновения считаем для всех, чтобы они не слипались
       if (checkCollision(cat1, cat2)) {
         resolveCollision(cat1, cat2);
       }
