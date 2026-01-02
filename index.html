@@ -44,10 +44,10 @@ body {
   position:relative;
   overflow:hidden;
   cursor:pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  user-select:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
 }
 
 .header {
@@ -121,13 +121,13 @@ body {
   font-size:19px;font-weight:900;color:#fff;
   cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.4);
   backdrop-filter:blur(10px);border:3px solid rgba(255,255,255,0.6);
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  user-select:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
   pointer-events:auto;
-  will-change: transform;
-  transition: none;
+  will-change:transform;
+  transition:none;
 }
 .cat span{font-size:12px!important;line-height:1;font-weight:900!important;text-shadow:1px 1px 2px rgba(0,0,0,0.5)}
 
@@ -138,13 +138,10 @@ body {
 
 .cat.collected {
   opacity:0.4;transform:scale(0.8);
-  pointer-events:none;animation:collectedFloat 3s ease-in-out infinite;
-  box-shadow:0 0 30px rgba(255,215,0,1);border-color:rgba(255,215,0,1);
-  filter: drop-shadow(0 0 15px rgba(255,215,0,0.9));
-}
-@keyframes collectedFloat {
-  0%,100%{transform:scale(0.8) translateY(0)}
-  50%{transform:scale(1) translateY(-10px)}
+  /* НЕ выключаем движение, только визуальный эффект */
+  box-shadow:0 0 30px rgba(255,215,0,1);
+  border-color:rgba(255,215,0,1);
+  filter:drop-shadow(0 0 15px rgba(255,215,0,0.9));
 }
 
 .message {
@@ -298,20 +295,18 @@ function createCat(el, index) {
   cat.style.background = `linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
   cat.innerHTML = `🐱<br><span>${el}</span>`;
   
-  // Инициализация физики - ВСЕГДА летают!
   cat.radius = 27.5;
   cat.isCollected = false;
   cat.angle = Math.random() * Math.PI * 2;
-  cat.baseSpeed = 0.8 + Math.random() * 0.6; // СНИЖЕНА СКОРОСТЬ
+  cat.baseSpeed = 0.8 + Math.random() * 0.6;
   cat.vx = Math.cos(cat.angle) * cat.baseSpeed;
   cat.vy = Math.sin(cat.angle) * cat.baseSpeed;
   cat.rotation = Math.random() * 360;
-  cat.rotationSpeed = (Math.random() - 0.5) * 8; // немножко плавнее
+  cat.rotationSpeed = (Math.random() - 0.5) * 8;
   
   cat.addEventListener('click', function(e) {
     e.preventDefault();
     e.stopPropagation();
-    
     if (!gameStarted || cat.isCollected) return;
     
     const next = collected.length;
@@ -341,8 +336,6 @@ function initCats() {
   
   shuffledElements.forEach((el, index) => {
     const cat = createCat(el, index);
-    
-    // Распределение по всему экрану
     cat.x = 60 + (Math.random() - 0.5) * (window.innerWidth - 120);
     cat.y = 60 + (Math.random() - 0.5) * (window.innerHeight - 120);
     
@@ -371,10 +364,9 @@ function resolveCollision(a, b) {
   
   const relativeVelocity = { x: b.vx - a.vx, y: b.vy - a.vy };
   const speed = relativeVelocity.x * nx + relativeVelocity.y * ny;
-  
   if (speed > 0) return;
   
-  const impulse = 2 * speed / 2 * 1.0; // чуть мягче
+  const impulse = 2 * speed / 2 * 1.0;
   a.vx += impulse * nx;
   a.vy += impulse * ny;
   b.vx -= impulse * nx;
@@ -403,14 +395,14 @@ function animate() {
   const bounds = updateBounds();
   
   cats.forEach(cat => {
+    // Все коты (включая собранные) продолжают летать
     cat.x += cat.vx;
     cat.y += cat.vy;
     cat.rotation += cat.rotationSpeed;
     
-    // Столкновение со стенами
     if (cat.x - cat.radius < bounds.left) {
       cat.x = bounds.left + cat.radius;
-      cat.vx = Math.abs(cat.vx); // убрал ускорение
+      cat.vx = Math.abs(cat.vx);
     }
     if (cat.x + cat.radius > bounds.right) {
       cat.x = bounds.right - cat.radius;
@@ -425,9 +417,8 @@ function animate() {
       cat.vy = -Math.abs(cat.vy);
     }
     
-    // Лёгкое трение + поддержка скорости
     const currentSpeed = Math.sqrt(cat.vx * cat.vx + cat.vy * cat.vy);
-    if (currentSpeed < cat.baseSpeed * 0.85) { // восстановление, но на меньшей скорости
+    if (currentSpeed < cat.baseSpeed * 0.85) {
       const angle = Math.atan2(cat.vy, cat.vx || 0.0001);
       cat.vx = Math.cos(angle) * cat.baseSpeed;
       cat.vy = Math.sin(angle) * cat.baseSpeed;
@@ -436,10 +427,9 @@ function animate() {
       cat.vy *= 0.996;
     }
     
-    // Более мягкие хаотичные возмущения
     if (Math.random() < 0.03) {
-      cat.vx += (Math.random() - 0.5) * 0.18; // СНИЖЕНА СКОРОСТЬ
-      cat.vy += (Math.random() - 0.5) * 0.18; // СНИЖЕНА СКОРОСТЬ
+      cat.vx += (Math.random() - 0.5) * 0.18;
+      cat.vy += (Math.random() - 0.5) * 0.18;
     }
     
     cat.style.left = `${cat.x}px`;
@@ -451,7 +441,8 @@ function animate() {
     for (let j = i + 1; j < cats.length; j++) {
       const cat1 = cats[i];
       const cat2 = cats[j];
-      if (!cat1.isCollected && !cat2.isCollected && checkCollision(cat1, cat2)) {
+      // Столкновения считаем для всех, чтобы они не слипались
+      if (checkCollision(cat1, cat2)) {
         resolveCollision(cat1, cat2);
       }
     }
