@@ -9,26 +9,30 @@
 @keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .header{position:fixed;top:15px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.95);padding:12px 25px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,0.2);font-size:18px;font-weight:600;z-index:100;backdrop-filter:blur(15px)}
 .header span{color:#ff6b9d;font-size:22px}
-.cat{position:absolute;width:85px;height:85px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:26px;font-weight:600;transition:all 0.4s ease;user-select:none;cursor:pointer;box-shadow:0 12px 35px rgba(0,0,0,0.4);backdrop-filter:blur(12px);animation:floatMove 8s infinite linear}
+.cat{position:absolute;width:85px;height:85px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:26px;font-weight:600;transition:all 0.6s ease;user-select:none;cursor:pointer;box-shadow:0 12px 35px rgba(0,0,0,0.4);backdrop-filter:blur(12px);animation:floatMove 8s infinite linear}
 @keyframes floatMove{0%{transform:translate(0,0) rotate(0deg);opacity:1}25%{transform:translate(50px,-30px) rotate(90deg)}50%{transform:translate(100px,20px) rotate(180deg)}75%{transform:translate(20px,-50px) rotate(270deg)}100%{transform:translate(0,0) rotate(360deg);opacity:1}}
 .cat:nth-child(odd){animation-direction:reverse;animation-duration:10s}
 .cat:nth-child(3n){animation-duration:12s}
 .cat:nth-child(5n){animation-duration:6s}
 .cat:hover{transform:scale(1.3) rotate(15deg)!important;z-index:20;filter:drop-shadow(0 0 30px currentColor)}
-.cat.collected{opacity:0.2;transform:scale(0.7);pointer-events:none;animation-play-state:paused}
+.cat.collected{opacity:0.3;transform:scale(0.8) translateY(-20px);pointer-events:none;animation:collectedGlow 2s ease-in-out infinite;border:3px solid rgba(255,255,255,0.8);box-shadow:0 0 25px rgba(255,107,157,0.6)}
+@keyframes collectedGlow{0%,100%{box-shadow:0 0 25px rgba(255,107,157,0.6);transform:scale(0.8) translateY(-20px)}50%{box-shadow:0 0 35px rgba(255,107,157,0.9);transform:scale(0.85) translateY(-25px)}}
 .message{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(255,248,255,0.9));padding:30px;border-radius:25px;box-shadow:0 25px 60px rgba(0,0,0,0.4);text-align:center;font-size:20px;max-width:450px;border:4px solid #ff6b9d;backdrop-filter:blur(20px);z-index:200;animation:fadeInOut 4s forwards}
 @keyframes fadeInOut{0%{opacity:0;transform:translate(-50%,-50%) scale(0.8)}20%{opacity:1;transform:translate(-50%,-50%) scale(1)}80%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-30%) scale(1.1)}}
 .collected-count{position:fixed;bottom:20px;right:20px;background:rgba(255,255,255,0.9);padding:15px;border-radius:20px;font-size:18px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:100;color:#ff6b9d}
+.collected-list{position:fixed;bottom:60px;left:20px;background:rgba(255,255,255,0.95);padding:15px;border-radius:20px;font-size:16px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:100;max-width:300px;max-height:120px;overflow-y:auto}
+.collected-list .item{display:inline-block;margin:3px 5px;padding:5px 8px;background:rgba(255,107,157,0.2);border-radius:15px;border:2px solid #ff6b9d;color:#ff6b9d}
 .hearts{position:fixed;pointer-events:none;font-size:22px;z-index:150;animation:float 3s forwards}
 @keyframes float{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-120px) scale(1.4)}}
 .winmsg{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#ff9a9e,#fecfef);color:white;padding:40px;border-radius:30px;box-shadow:0 30px 80px rgba(255,107,157,0.6);text-align:center;font-size:22px;max-width:500px;border:5px solid #ff6b9d;font-weight:600;animation:pulse 2s infinite;display:none;z-index:300}
 @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}
-@media(max-width:768px){.cat{width:70px;height:70px;font-size:22px;animation-duration:12s}}
+@media(max-width:768px){.cat{width:70px;height:70px;font-size:22px;animation-duration:12s}.collected-list{bottom:55px;left:10px;font-size:14px}}
 </style>
 </head>
 <body>
 <div class="header">🐱 Лови котов Менделеева, Анастасия! Кликай по порядку 💕 <span id="collected">0/15</span></div>
 <div class="collected-count">H → He → Li → Be → B → C → N → O → F → Ne → Na → Mg → Al → Si → P</div>
+<div class="collected-list" id="collectedList">Собрано: <span id="collectedItems"></span></div>
 <div class="message" id="msg"><div id="msgText">🐱 Начинай с H!</div></div>
 <div class="winmsg" id="winmsg">🎉 <strong>ПОЗДРАВЛЯЮ, АНАСТАСИЯ!</strong><br><br>"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь" 💕❤️</div>
 
@@ -44,6 +48,12 @@ function shuffleArray(array) {
         [array[i],array[j]]=[array[j],array[i]]
     }
     return array
+}
+
+function updateCollectedDisplay() {
+    const items = document.getElementById('collectedItems');
+    items.innerHTML = collected.map(el => `<span class="item">${el}</span>`).join('');
+    document.getElementById('collected').textContent=`${collected.length}/15`;
 }
 
 function initCats() {
@@ -65,14 +75,14 @@ function initCats() {
             if(el === elements[nextIndex]){
                 collected.push(el);
                 cat.classList.add('collected');
-                document.getElementById('collected').textContent=`${collected.length}/15`;
+                updateCollectedDisplay();
                 showCompliment(getUniqueCompliment());
                 createHearts();
                 if(collected.length===15){
                     setTimeout(()=>document.getElementById('winmsg').style.display='block',1500)
                 }
             } else {
-                showCompliment('Нужен следующий по порядку! 🐾')
+                showCompliment(`Нужен следующий: ${elements[nextIndex]} 🐾`)
             }
         };
         container.appendChild(cat)
@@ -113,9 +123,6 @@ function createHeart(){
 }
 
 initCats();
-document.body.onclick=e=>{
-    if(!e.target.closest('.message,.winmsg,.cat'))createHeart()
-}
 </script>
 </body>
 </html>
