@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Коты Менделеева 💕</title>
+<title>Коты Менделеева</title>
 <style>
 * {margin:0;padding:0;box-sizing:border-box}
 body {
@@ -27,18 +27,6 @@ body {
   user-select: none;
 }
 .header span{color:#ffd700;font-weight:800}
-
-.heart-lock {
-  position:fixed;top:20px;right:20px;width:50px;height:50px;
-  background:linear-gradient(135deg,#ff69b4,#ff1493);border-radius:50%;
-  box-shadow:0 8px 25px rgba(255,105,180,0.4),inset 0 2px 10px rgba(255,255,255,0.2);
-  z-index:90;display:flex;align-items:center;justify-content:center;
-  font-size:24px;transition:all 0.4s ease;transform:scale(0.9) rotate(-5deg);
-  animation:lockFloat 3s ease-in-out infinite;border:2px solid rgba(255,255,255,0.3)
-}
-.heart-lock.collected{animation:lockGlow 2s infinite}
-@keyframes lockFloat{0%,100%{transform:scale(0.9) rotate(-5deg) translateY(0)}50%{transform:scale(1.05) rotate(5deg) translateY(-3px)}}
-@keyframes lockGlow{0%,100%{box-shadow:0 8px 25px rgba(255,105,180,0.4),0 0 20px rgba(255,105,180,0.3)}50%{box-shadow:0 12px 35px rgba(255,105,180,0.6),0 0 40px rgba(255,105,180,0.8)}}
 
 .cat {
   position:absolute;width:52px;height:52px;border-radius:50%;
@@ -99,6 +87,7 @@ body {
 .collected-count, .collected-list {
   pointer-events:none;
 }
+
 .collected-count {
   position:fixed;bottom:12px;right:12px;background:rgba(255,255,255,0.15);
   backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
@@ -122,94 +111,29 @@ body {
 @keyframes popIn{0%{transform:scale(0)}100%{transform:scale(1)}}
 
 .hearts{position:fixed;pointer-events:none;font-size:16px;z-index:150;animation:floatHearts 3s forwards}
-@keyframes floatHearts{0%{opacity:1;transform:translateY(0) scale(0.8) rotate(0deg)}50%{transform:translateY(-50px) scale(1.2) rotate(180deg)}100%{opacity:0;transform:translateY(-120px) scale(1.5) rotate(360deg)}}
-
-.sparkles {
-  position:fixed;pointer-events:none;font-size:14px;z-index:160;
-  color:#ffd700;text-shadow:0 0 8px rgba(255,215,0,0.8);
-  animation:sparkleFloat 4s forwards
-}
-@keyframes sparkleFloat {
-  0%{opacity:0;transform:translateY(0) scale(0) rotate(0deg)}
-  10%{opacity:1;transform:translateY(-10px) scale(1) rotate(90deg)}
-  90%{opacity:1;transform:translateY(-80px) scale(1.2) rotate(270deg)}
-  100%{opacity:0;transform:translateY(-100px) scale(1.5) rotate(360deg)}
-}
-
-.love-trail {
-  position:fixed;pointer-events:none;font-size:20px;z-index:155;
-  color:#ff69b4;text-shadow:0 0 10px rgba(255,105,180,0.8);
-  animation:loveTrail 5s forwards
-}
-@keyframes loveTrail {
-  0%{opacity:0;transform:scale(0.5) translateX(0)}
-  20%{opacity:1;transform:scale(1.1) translateX(-20px)}
-  80%{opacity:1;transform:scale(1.3) translateX(-60px)}
-  100%{opacity:0;transform:scale(1.5) translateX(-100px)}
-}
-
-.heart-collect {
-  position:fixed;top:75px;right:20px;width:16px;height:16px;
-  background:#ff69b4;border-radius:50%;box-shadow:0 0 6px rgba(255,105,180,0.6);
-  z-index:95;opacity:0;transition:all 0.3s ease;transform:scale(0);
-  font-size:10px;line-height:16px;text-align:center;color:#fff;font-weight:bold
-}
-.heart-collect.active{opacity:1;transform:scale(1);animation:heartPulse 1.2s infinite}
-
-@keyframes heartPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+@keyframes floatHearts{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-100px) scale(1.2)}}
 
 .winmsg {
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
   background:linear-gradient(135deg,#fff8e1 0%,#fff3e0 100%);
   backdrop-filter:blur(25px);padding:35px;border-radius:25px;
-  box-shadow:0 25px 70px rgba(0,0,0,0.6);text-align:center;font-size:16px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);text-align:center;font-size:16px;
   max-width:460px;border:3px solid #d4af37;z-index:300;
   animation:victoryPulse 2.5s infinite;line-height:1.5;
   pointer-events:none;
   user-select: none;
 }
-.winmsg::before {
-  content:'💖';position:absolute;top:-25px;left:50%;transform:translateX(-50%);
-  font-size:40px;animation:bounce 2s infinite
+.winmsg .final-phrase {
+  display:block;margin:15px 0;padding:18px 22px;
+  background:linear-gradient(135deg,rgba(255,248,225,0.9),rgba(255,243,224,0.8));
+  border:2px solid #daa520;border-radius:18px;box-shadow:0 8px 25px rgba(218,165,32,0.3);
+  color:#8b4513;font-weight:700;font-size:16px;letter-spacing:0.3px;
+  position:relative;overflow:hidden;animation:phraseGlow 3s infinite
 }
-@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-10px)}}
-
-.love-box {
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
-  width:320px;height:280px;background:linear-gradient(145deg,#ffe4e1,#fff0f5);
-  border-radius:25px;box-shadow:0 30px 80px rgba(255,182,193,0.5);
-  border:4px solid #ffb6c1;z-index:350;opacity:0;transition:all 1s ease;
-  overflow:hidden;pointer-events:none
-}
-.love-box.open{transform:translate(-50%,-50%) scale(1);opacity:1}
-.love-box::before {
-  content:'';position:absolute;top:0;left:0;right:0;height:60px;
-  background:linear-gradient(135deg,#ff69b4,#ff1493,#ff69b4);box-shadow:0 4px 20px rgba(255,105,180,0.4)
-}
-.love-box::after {
-  content:'💕';position:absolute;top:15px;left:50%;transform:translateX(-50%);
-  font-size:28px;z-index:2;animation:boxHeartBeat 2s infinite
-}
-@keyframes boxHeartBeat{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.1)}}
-
-.love-message {
-  position:absolute;bottom:25px;left:50%;transform:translateX(-50%);
-  background:linear-gradient(135deg,rgba(255,248,225,0.95),rgba(255,243,224,0.9));
-  padding:20px 25px;border-radius:20px;border:3px solid #ffd700;
-  text-align:center;font-size:15px;font-weight:600;color:#8b4513;
-  max-width:280px;box-shadow:0 10px 30px rgba(255,215,0,0.3);
-  line-height:1.4;animation:msgReveal 4s 2s forwards;
-  opacity:0;overflow:hidden
-}
-@keyframes msgReveal{0%{opacity:0;transform:translateX(-50%) translateY(20px)}100%{opacity:1;transform:translateX(-50%) translateY(0)}}
-
-.heart-chain {
-  position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;
-  z-index:310;display:flex;align-items:center;justify-content:center;
-  font-size:22px;opacity:0;transition:opacity 1s ease
-}
-.heart-chain.show{opacity:1;animation:chainFloat 6s infinite}
-@keyframes chainFloat{0%,100%{transform:translateY(0) scale(1)}25%{transform:translateY(-15px) scale(1.1)}75%{transform:translateY(-5px) scale(1.05)}}
+.winmsg .final-phrase:nth-child(2){animation-delay:0.3s}
+.winmsg .final-phrase:nth-child(3){animation-delay:0.6s}
+@keyframes victoryPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.03)}}
+@keyframes phraseGlow{0%,100%{box-shadow:0 8px 25px rgba(218,165,32,0.3);border-color:#daa520}50%{box-shadow:0 12px 35px rgba(218,165,32,0.6);border-color:#ffd700}}
 
 @media(max-width:768px){
   .cat{width:46px;height:46px;font-size:16px}
@@ -218,33 +142,14 @@ body {
   .winmsg{padding:25px;font-size:15px;max-width:90vw}
   .collected-list{bottom:36px;left:8px;font-size:12px}
   .collected-count{bottom:8px;right:8px}
-  .love-box{width:280px;height:240px}
-  .heart-lock{top:15px;right:15px;width:42px;height:42px;font-size:20px}
 }
 </style>
 </head>
 <body>
-<div class="header">Коты Менделеева 💕 Кликай по порядку <span id="collected">0/15</span></div>
+<div class="header">Коты Менделеева. Кликай по порядку <span id="collected">0/15</span></div>
 <div class="collected-count">H→He→Li→Be→B→C→N→O→F→Ne→Na→Mg→Al→Si→P</div>
 <div class="collected-list">Собрано: <span id="collectedItems"></span></div>
 <div class="message" id="msg"><div id="msgText">Начинай с H</div></div>
-
-<!-- Замочек любви -->
-<div class="heart-lock" id="heartLock">🔒</div>
-
-<!-- Сердечки прогресса -->
-<div id="progressContainer"></div>
-
-<!-- Шкатулка любви -->
-<div class="love-box" id="loveBox">
-  <div class="love-message" id="loveMsg">
-    Ты собрала все сердечки! 💖 Теперь наш замочек открывается... Я всегда буду с тобой 💕
-  </div>
-</div>
-
-<!-- Цепочка сердечек -->
-<div class="heart-chain" id="heartChain">💕💖💕💗💕💖💕</div>
-
 <div class="winmsg" id="winmsg" style="display:none">
   <div class="final-phrase">"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь"</div>
   <div class="final-phrase">"Я далеко не дурак, давай попробуем еще раз"</div>
@@ -275,7 +180,6 @@ const compliments = [
 
 let collected = [];
 let usedCompliments = [];
-let heartHearts = [];
 
 function shuffleArray(array) {
   const shuffled = [...array];
@@ -288,29 +192,13 @@ function shuffleArray(array) {
 
 function getRandomCompliment() {
   const available = compliments.filter((_, i) => !usedCompliments.includes(i));
-  if (available.length === 0) usedCompliments = [];
+  if (available.length === 0) {
+    usedCompliments = [];
+  }
   const idx = Math.floor(Math.random() * available.length);
   const complimentIdx = compliments.indexOf(available[idx]);
   usedCompliments.push(complimentIdx);
   return available[idx];
-}
-
-function createHeartProgress() {
-  const container = document.getElementById('progressContainer');
-  container.innerHTML = '';
-  
-  for(let i = 0; i < 15; i++) {
-    const heart = document.createElement('div');
-    heart.className = 'heart-collect';
-    if(i < collected.length) {
-      heart.classList.add('active');
-      heart.textContent = '💖';
-    }
-    heart.style.left = `${75 + (i * 5.5)}px`;
-    heart.style.top = `${15 + (i % 4) * 4}px`;
-    container.appendChild(heart);
-    heartHearts[i] = heart;
-  }
 }
 
 function updateCollectedDisplay() {
@@ -319,54 +207,6 @@ function updateCollectedDisplay() {
   
   itemsSpan.innerHTML = collected.map(el => `<span class="item">${el}</span>`).join('');
   collectedSpan.textContent = `${collected.length}/15`;
-  
-  // Активируем сердечко
-  if(heartHearts[collected.length - 1]) {
-    heartHearts[collected.length - 1].classList.add('active');
-    heartHearts[collected.length - 1].textContent = '💖';
-  }
-  
-  // Замочек оживает
-  const lock = document.getElementById('heartLock');
-  if(collected.length > 0) {
-    lock.classList.add('collected');
-    lock.textContent = '💕';
-  }
-}
-
-function createSparkle(x, y) {
-  const sparkle = document.createElement('div');
-  sparkle.className = 'sparkles';
-  sparkle.innerHTML = ['✨','⭐','💫','🌟'][Math.floor(Math.random()*4)];
-  sparkle.style.left = x + 'px';
-  sparkle.style.top = y + 'px';
-  document.body.appendChild(sparkle);
-  setTimeout(() => sparkle.remove(), 4000);
-}
-
-function createLoveTrail(x, y) {
-  const trail = document.createElement('div');
-  trail.className = 'love-trail';
-  trail.innerHTML = ['💕','💖','💗','💘','💝'][Math.floor(Math.random()*5)];
-  trail.style.left = x + 'px';
-  trail.style.top = y + 'px';
-  document.body.appendChild(trail);
-  setTimeout(() => trail.remove(), 5000);
-}
-
-function openLoveBox() {
-  const box = document.getElementById('loveBox');
-  const chain = document.getElementById('heartChain');
-  const lock = document.getElementById('heartLock');
-  
-  setTimeout(() => {
-    chain.classList.add('show');
-  }, 500);
-  
-  setTimeout(() => {
-    box.classList.add('open');
-    lock.innerHTML = '💖✨';
-  }, 1500);
 }
 
 function createCat(el) {
@@ -378,14 +218,11 @@ function createCat(el) {
   cat.style.left = `${x}vw`;
   cat.style.top = `${y}vh`;
   
-  const rect = cat.getBoundingClientRect();
-  const centerX = (rect.left + rect.width/2);
-  const centerY = (rect.top + rect.height/2);
-  
   const i = elements.indexOf(el);
   cat.style.background = `linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
   cat.innerHTML = `🐱<br><span>${el}</span>`;
   
+  // Используем addEventListener вместо onclick для надежности
   cat.addEventListener('click', function handleCatClick(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -400,17 +237,12 @@ function createCat(el) {
       collected.push(el);
       cat.classList.add('collected');
       updateCollectedDisplay();
-      
-      createSparkle(e.clientX, e.clientY);
-      createLoveTrail(e.clientX - 30, e.clientY);
-      
       showCompliment(getRandomCompliment());
       createHearts();
       
       if (collected.length === 15) {
         setTimeout(() => {
           document.getElementById('winmsg').style.display = 'block';
-          openLoveBox();
         }, 1200);
       }
     } else {
@@ -422,9 +254,11 @@ function createCat(el) {
 }
 
 function initCats() {
+  // Очищаем body от старых котов
   const oldCats = document.querySelectorAll('.cat');
   oldCats.forEach(cat => cat.remove());
   
+  // Создаем новых
   shuffleArray([...elements]).forEach(el => {
     document.body.appendChild(createCat(el));
   });
@@ -436,29 +270,29 @@ function showCompliment(text) {
   
   msgText.textContent = text;
   msg.style.animation = 'none';
-  msg.offsetHeight;
+  msg.offsetHeight; // Force reflow
   msg.style.animation = 'fadeInOut 3.5s forwards';
 }
 
 function createHearts() {
-  for(let i = 0; i < 20; i++) {
-    setTimeout(() => {
-      const h = document.createElement('div');
-      h.className = 'hearts';
-      h.innerHTML = ['💖','💕','💗','💘','💝'][Math.floor(Math.random()*5)];
-      h.style.left = (Math.random() * 90 + 5) + 'vw';
-      h.style.top = '85vh';
-      h.style.fontSize = (12 + Math.random()*8) + 'px';
-      document.body.appendChild(h);
-      setTimeout(() => h.remove(), 3500);
-    }, 30 * i);
+  for(let i = 0; i < 15; i++) {
+    setTimeout(() => createHeart(), 40 * i);
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  initCats();
-  createHeartProgress();
-});
+function createHeart() {
+  const h = document.createElement('div');
+  h.className = 'hearts';
+  h.innerHTML = '💖';
+  h.style.left = (Math.random() * 90 + 5) + 'vw';
+  h.style.top = '85vh';
+  h.style.color = '#ff69b4';
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 3500);
+}
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', initCats);
 </script>
 </body>
 </html>
