@@ -82,48 +82,89 @@ body {
   100%{opacity:1;transform:translate(-50%,-50%) scale(1) translateY(0)}
 }
 
+.cats-container {
+  position:absolute;top:0;left:0;width:100%;height:100vh;
+  pointer-events:none;z-index:10;
+}
 .cat {
-  position:absolute;width:58px;height:58px;border-radius:50%;
+  position:absolute;width:55px;height:55px;border-radius:50%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  font-size:20px;font-weight:900;color:#000;
-  transition:all 0.4s ease-out;
-  cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.4);
-  backdrop-filter:blur(8px);animation:floatMove 12s infinite ease-in-out;
-  padding:3px;border:1px solid rgba(255,255,255,0.3);
+  font-size:19px;font-weight:900;color:#000;
+  transition:all 0.3s ease-out;
+  cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.4);
+  backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.4);
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  pointer-events:auto;
 }
-.cat span{font-size:13px!important;line-height:1;font-weight:900!important}
+.cat span{font-size:12px!important;line-height:1;font-weight:900!important}
 
-@keyframes floatMove {
-  0%{transform:translate(0,0) rotate(0deg)}
-  10%{transform:translate(8px,-12px) rotate(45deg)}
-  25%{transform:translate(-15px,-8px) rotate(90deg)}
-  40%{transform:translate(12px,5px) rotate(135deg)}
-  50%{transform:translate(-5px,12px) rotate(180deg)}
-  60%{transform:translate(18px,-5px) rotate(225deg)}
-  75%{transform:translate(-12px,8px) rotate(270deg)}
-  90%{transform:translate(5px,-15px) rotate(315deg)}
-  100%{transform:translate(0,0) rotate(360deg)}
+@keyframes bouncePath1 {
+  0%{transform:translate(5vw,10vh) rotate(0deg)}
+  12%{transform:translate(20vw,5vh) rotate(45deg)}
+  25%{transform:translate(35vw,15vh) rotate(90deg)}
+  37%{transform:translate(50vw,8vh) rotate(135deg)}
+  50%{transform:translate(65vw,20vh) rotate(180deg)}
+  62%{transform:translate(45vw,12vh) rotate(225deg)}
+  75%{transform:translate(25vw,18vh) rotate(270deg)}
+  87%{transform:translate(10vw,8vh) rotate(315deg)}
+  100%{transform:translate(5vw,10vh) rotate(360deg)}
 }
-.cat:nth-child(odd){animation-direction:reverse;animation-delay:2s}
-.cat:nth-child(3n){animation-duration:10s}
-.cat:nth-child(5n){animation-duration:14s}
-.cat:nth-child(7n){animation-duration:8s}
+@keyframes bouncePath2 {
+  0%{transform:translate(75vw,25vh) rotate(0deg)}
+  12%{transform:translate(60vw,35vh) rotate(-45deg)}
+  25%{transform:translate(40vw,28vh) rotate(-90deg)}
+  37%{transform:translate(20vw,40vh) rotate(-135deg)}
+  50%{transform:translate(35vw,32vh) rotate(-180deg)}
+  62%{transform:translate(55vw,22vh) rotate(-225deg)}
+  75%{transform:translate(70vw,30vh) rotate(-270deg)}
+  87%{transform:translate(80vw,18vh) rotate(-315deg)}
+  100%{transform:translate(75vw,25vh) rotate(-360deg)}
+}
+@keyframes bouncePath3 {
+  0%{transform:translate(15vw,45vh) rotate(0deg)}
+  12%{transform:translate(30vw,55vh) rotate(60deg)}
+  25%{transform:translate(55vw,48vh) rotate(120deg)}
+  37%{transform:translate(70vw,60vh) rotate(180deg)}
+  50%{transform:translate(50vw,52vh) rotate(240deg)}
+  62%{transform:translate(25vw,58vh) rotate(300deg)}
+  75%{transform:translate(10vw,50vh) rotate(360deg)}
+  87%{transform:translate(35vw,42vh) rotate(420deg)}
+  100%{transform:translate(15vw,45vh) rotate(360deg)}
+}
+@keyframes bouncePath4 {
+  0%{transform:translate(45vw,15vh) rotate(0deg)}
+  12%{transform:translate(60vw,25vh) rotate(-30deg)}
+  25%{transform:translate(80vw,20vh) rotate(-60deg)}
+  37%{transform:translate(65vw,35vh) rotate(-90deg)}
+  50%{transform:translate(40vw,28vh) rotate(-120deg)}
+  62%{transform:translate(20vw,22vh) rotate(-150deg)}
+  75%{transform:translate(5vw,30vh) rotate(-180deg)}
+  87%{transform:translate(25vw,12vh) rotate(-210deg)}
+  100%{transform:translate(45vw,15vh) rotate(-360deg)}
+}
+
+.cat.path1{animation:bouncePath1 10s infinite ease-in-out}
+.cat.path2{animation:bouncePath2 12s infinite ease-in-out;animation-delay:1s}
+.cat.path3{animation:bouncePath3 11s infinite ease-in-out;animation-delay:3s}
+.cat.path4{animation:bouncePath4 9s infinite ease-in-out;animation-delay:5s}
+.cat:nth-child(5n){animation-duration:8s}
+.cat:nth-child(3n){animation-duration:13s}
+
 .cat:hover {
-  transform:scale(1.15) rotate(10deg) translateY(-6px)!important;
-  z-index:50;box-shadow:0 15px 35px rgba(0,0,0,0.7)
+  transform:scale(1.2) rotate(15deg) translateY(-8px)!important;
+  z-index:50;box-shadow:0 20px 40px rgba(0,0,0,0.7)
 }
 .cat.collected {
-  opacity:0.15;transform:scale(0.5) translateY(-10px);
+  opacity:0.2;transform:scale(0.6) translateY(-12px);
   pointer-events:none;animation:collectedPulse 2s infinite;
-  box-shadow:0 0 20px rgba(255,215,0,0.7);border-color:rgba(255,215,0,0.6)
+  box-shadow:0 0 25px rgba(255,215,0,0.8);border-color:rgba(255,215,0,0.7)
 }
 @keyframes collectedPulse {
-  0%,100%{opacity:0.15;box-shadow:0 0 20px rgba(255,215,0,0.7)}
-  50%{opacity:0.3;box-shadow:0 0 30px rgba(255,215,0,1)}
+  0%,100%{opacity:0.2;box-shadow:0 0 25px rgba(255,215,0,0.8)}
+  50%{opacity:0.35;box-shadow:0 0 40px rgba(255,215,0,1)}
 }
 
 .message {
@@ -144,21 +185,21 @@ body {
 }
 
 .collected-count, .collected-list {
-  pointer-events:none;
+  pointer-events:none;z-index:100;
 }
 
 .collected-count {
   position:fixed;bottom:12px;right:12px;background:rgba(255,255,255,0.15);
   backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
   font-size:14px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
-  z-index:100;border:1px solid rgba(255,255,255,0.2);min-width:100px;
+  border:1px solid rgba(255,255,255,0.2);min-width:100px;
   text-align:center;user-select: none;
 }
 .collected-list {
   position:fixed;bottom:40px;left:12px;background:rgba(255,255,255,0.15);
   backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
   font-size:13px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
-  z-index:100;max-width:240px;max-height:95px;overflow-y:auto;
+  max-width:240px;max-height:95px;overflow-y:auto;
   border:1px solid rgba(255,255,255,0.2);user-select: none;
 }
 .collected-list .item {
@@ -197,8 +238,8 @@ body {
 @keyframes phraseGlow{0%,100%{box-shadow:0 10px 30px rgba(30,60,114,0.3);border-color:rgba(30,60,114,0.4)}50%{box-shadow:0 15px 40px rgba(30,60,114,0.5);border-color:rgba(42,82,152,0.7)}}
 
 @media(max-width:768px){
-  .cat{width:52px;height:52px;font-size:18px}
-  .cat span{font-size:12px!important}
+  .cat{width:48px;height:48px;font-size:17px}
+  .cat span{font-size:11px!important}
   .header{font-size:14px;padding:8px 18px}
   .winmsg{padding:30px;font-size:15px;max-width:90vw}
   .collected-list{bottom:36px;left:8px;font-size:12px}
@@ -230,6 +271,8 @@ body {
   <button class="start-btn" onclick="startGame()">Начать игру</button>
 </div>
 
+<div class="cats-container" id="catsContainer" style="display:none"></div>
+
 <div class="message" id="msg" style="display:none"><div id="msgText">Начинай с H</div></div>
 <div class="winmsg" id="winmsg" style="display:none">
   <div class="final-phrase">"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь"</div>
@@ -240,6 +283,7 @@ body {
 <script>
 const elements=['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P'];
 const colors=['#e91e63','#4db6ac','#2196f3','#ffeb3b','#ff9800','#f44336','#9c27b0','#cddc39','#e91e63','#ffeb3b','#f44336','#26a69a','#26c6da','#3f51b5','#9e9e9e'];
+const paths = ['path1','path2','path3','path4'];
 
 const compliments = [
   '«Смотри, какая дорога за нами…»',
@@ -262,9 +306,12 @@ const compliments = [
 let collected = [];
 let usedCompliments = [];
 let gameStarted = false;
+let catsContainer;
 
 function startGame() {
   document.getElementById('instruction').style.display = 'none';
+  catsContainer = document.getElementById('catsContainer');
+  catsContainer.style.display = 'block';
   gameStarted = true;
   initCats();
 }
@@ -297,15 +344,10 @@ function updateCollectedDisplay() {
   collectedSpan.textContent = `${collected.length}/15`;
 }
 
-function createCat(el) {
+function createCat(el, pathIndex) {
   const cat = document.createElement('div');
-  cat.className = 'cat';
-  
-  // Компактные границы движения
-  const x = 15 + (Math.random() * 70);
-  const y = 20 + (Math.random() * 50);
-  cat.style.left = `${x}vw`;
-  cat.style.top = `${y}vh`;
+  cat.className = `cat ${paths[pathIndex % paths.length]}`;
+  cat.dataset.element = el;
   
   const i = elements.indexOf(el);
   cat.style.background = `linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
@@ -344,11 +386,12 @@ function createCat(el) {
 }
 
 function initCats() {
-  const oldCats = document.querySelectorAll('.cat');
-  oldCats.forEach(cat => cat.remove());
+  catsContainer.innerHTML = '';
+  const shuffledElements = shuffleArray([...elements]);
   
-  shuffleArray([...elements]).forEach(el => {
-    document.body.appendChild(createCat(el));
+  shuffledElements.forEach((el, index) => {
+    const cat = createCat(el, index);
+    catsContainer.appendChild(cat);
   });
 }
 
@@ -376,6 +419,7 @@ function createHeart() {
   h.style.left = (Math.random() * 90 + 5) + 'vw';
   h.style.top = '85vh';
   h.style.color = '#ff69b4';
+  h.style.pointerEvents = 'none';
   document.body.appendChild(h);
   setTimeout(() => h.remove(), 3500);
 }
