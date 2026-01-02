@@ -9,7 +9,8 @@
 @keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .header{position:fixed;top:15px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.95);padding:12px 25px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,0.2);font-size:18px;font-weight:600;z-index:100;backdrop-filter:blur(15px)}
 .header span{color:#ff6b9d;font-size:22px}
-.cat{position:absolute;width:85px;height:85px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:26px;font-weight:600;transition:all 0.6s ease;user-select:none;cursor:pointer;box-shadow:0 12px 35px rgba(0,0,0,0.4);backdrop-filter:blur(12px);animation:floatMove 8s infinite linear}
+.cat{position:absolute;width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;font-weight:600;transition:all 0.6s ease;user-select:none;cursor:pointer;box-shadow:0 12px 35px rgba(0,0,0,0.4);backdrop-filter:blur(12px);animation:floatMove 8s infinite linear;padding:8px}
+.cat span{font-size:20px !important;line-height:1.1 !important;margin-top:-2px !important}
 @keyframes floatMove{0%{transform:translate(0,0) rotate(0deg);opacity:1}25%{transform:translate(50px,-30px) rotate(90deg)}50%{transform:translate(100px,20px) rotate(180deg)}75%{transform:translate(20px,-50px) rotate(270deg)}100%{transform:translate(0,0) rotate(360deg);opacity:1}}
 .cat:nth-child(odd){animation-direction:reverse;animation-duration:10s}
 .cat:nth-child(3n){animation-duration:12s}
@@ -26,7 +27,7 @@
 @keyframes float{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-120px) scale(1.4)}}
 .winmsg{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#ff9a9e,#fecfef);color:white;padding:40px;border-radius:30px;box-shadow:0 30px 80px rgba(255,107,157,0.6);text-align:center;font-size:22px;max-width:500px;border:5px solid #ff6b9d;font-weight:600;animation:pulse 2s infinite;display:none;z-index:300}
 @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}
-@media(max-width:768px){.cat{width:70px;height:70px;font-size:22px;animation-duration:12s}.collected-list{bottom:55px;left:10px;font-size:14px}}
+@media(max-width:768px){.cat{width:75px;height:75px;font-size:24px;padding:6px}.cat span{font-size:18px !important}.collected-list{bottom:55px;left:10px;font-size:14px}}
 </style>
 </head>
 <body>
@@ -56,36 +57,40 @@ function updateCollectedDisplay() {
     document.getElementById('collected').textContent=`${collected.length}/15`;
 }
 
+function createCat(el) {
+    const cat=document.createElement('div');
+    cat.className='cat';
+    cat.style.left=(Math.random()*70+15)+'vw';
+    cat.style.top=(Math.random()*60+20)+'vh';
+    const colorIndex = elements.indexOf(el);
+    cat.style.background=`linear-gradient(135deg,${colors[colorIndex]},${colors[colorIndex]}cc)`;
+    cat.innerHTML=`🐱<br><span>${el}</span>`;
+    cat.onclick=()=>{
+        if(collected.includes(el)){
+            showCompliment('Этот котик уже твой! 😻');
+            return
+        }
+        const nextIndex = collected.length;
+        if(el === elements[nextIndex]){
+            collected.push(el);
+            cat.classList.add('collected');
+            updateCollectedDisplay();
+            showCompliment(getUniqueCompliment());
+            createHearts();
+            if(collected.length===15){
+                setTimeout(()=>document.getElementById('winmsg').style.display='block',1500)
+            }
+        } else {
+            showCompliment(`Нужен следующий: ${elements[nextIndex]} 🐾`)
+        }
+    };
+    return cat;
+}
+
 function initCats() {
     const container=document.body;
-    shuffleArray([...elements]).forEach((el,i)=>{
-        const cat=document.createElement('div');
-        cat.className='cat';
-        cat.style.left=(Math.random()*70+15)+'vw';
-        cat.style.top=(Math.random()*60+20)+'vh';
-        const colorIndex = elements.indexOf(el);
-        cat.style.background=`linear-gradient(135deg,${colors[colorIndex]},${colors[colorIndex]}cc)`;
-        cat.innerHTML=`🐱<br><span style="font-size:18px;font-weight:bold">${el}</span>`;
-        cat.onclick=()=>{
-            if(collected.includes(el)){
-                showCompliment('Этот котик уже твой! 😻');
-                return
-            }
-            const nextIndex = collected.length;
-            if(el === elements[nextIndex]){
-                collected.push(el);
-                cat.classList.add('collected');
-                updateCollectedDisplay();
-                showCompliment(getUniqueCompliment());
-                createHearts();
-                if(collected.length===15){
-                    setTimeout(()=>document.getElementById('winmsg').style.display='block',1500)
-                }
-            } else {
-                showCompliment(`Нужен следующий: ${elements[nextIndex]} 🐾`)
-            }
-        };
-        container.appendChild(cat)
+    shuffleArray([...elements]).forEach((el)=>{
+        container.appendChild(createCat(el));
     })
 }
 
@@ -123,6 +128,9 @@ function createHeart(){
 }
 
 initCats();
+document.body.onclick=e=>{
+    if(!e.target.closest('.message,.winmsg,.cat'))createHeart()
+}
 </script>
 </body>
 </html>
