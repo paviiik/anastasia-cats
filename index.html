@@ -13,13 +13,18 @@ body {
   position:relative;
   overflow:hidden;
   cursor:pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 .header {
   position:fixed;top:12px;left:50%;transform:translateX(-50%);
   background:rgba(255,255,255,0.1);backdrop-filter:blur(15px);
   padding:10px 24px;border-radius:25px;font-size:16px;font-weight:600;
   color:#fff;box-shadow:0 8px 25px rgba(0,0,0,0.3);z-index:100;
-  border:1px solid rgba(255,255,255,0.2)
+  border:1px solid rgba(255,255,255,0.2);pointer-events:none;
+  user-select: none;
 }
 .header span{color:#ffd700;font-weight:800}
 
@@ -30,7 +35,11 @@ body {
   transition:all 0.4s ease-out;
   cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.4);
   backdrop-filter:blur(8px);animation:floatMove 16s infinite linear;
-  padding:2px;border:1px solid rgba(255,255,255,0.3)
+  padding:2px;border:1px solid rgba(255,255,255,0.3);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 .cat span{font-size:12px!important;line-height:1;font-weight:900!important}
 
@@ -64,7 +73,9 @@ body {
   padding:20px;border-radius:20px;box-shadow:0 15px 50px rgba(0,0,0,0.4);
   text-align:center;font-size:17px;max-width:380px;font-weight:500;
   border:2px solid rgba(255,255,255,0.8);z-index:200;
-  animation:fadeInOut 3.5s forwards
+  animation:fadeInOut 3.5s forwards;
+  pointer-events:none;
+  user-select: none;
 }
 @keyframes fadeInOut {
   0%{opacity:0;transform:translate(-50%,-50%) scale(0.9)}
@@ -73,19 +84,23 @@ body {
   100%{opacity:0;transform:translate(-50%,-30%) scale(1.05)}
 }
 
+.collected-count, .collected-list {
+  pointer-events:none;
+}
+
 .collected-count {
   position:fixed;bottom:12px;right:12px;background:rgba(255,255,255,0.15);
   backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
   font-size:14px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
   z-index:100;border:1px solid rgba(255,255,255,0.2);min-width:100px;
-  text-align:center
+  text-align:center;user-select: none;
 }
 .collected-list {
   position:fixed;bottom:40px;left:12px;background:rgba(255,255,255,0.15);
   backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
   font-size:13px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
   z-index:100;max-width:240px;max-height:95px;overflow-y:auto;
-  border:1px solid rgba(255,255,255,0.2)
+  border:1px solid rgba(255,255,255,0.2);user-select: none;
 }
 .collected-list .item {
   display:inline-block;margin:1px 2px;padding:3px 7px;background:rgba(255,255,255,0.3);
@@ -104,7 +119,9 @@ body {
   backdrop-filter:blur(25px);padding:35px;border-radius:25px;
   box-shadow:0 30px 80px rgba(0,0,0,0.6);text-align:center;font-size:16px;
   max-width:460px;border:3px solid #d4af37;z-index:300;
-  animation:victoryPulse 2.5s infinite;line-height:1.5
+  animation:victoryPulse 2.5s infinite;line-height:1.5;
+  pointer-events:none;
+  user-select: none;
 }
 .winmsg .final-phrase {
   display:block;margin:15px 0;padding:18px 22px;
@@ -161,81 +178,121 @@ const compliments = [
   '«Мы созданы друг для друга, просто нужно в это поверить»'
 ];
 
-let collected=[],usedCompliments=[];
+let collected = [];
+let usedCompliments = [];
 
-function shuffleArray(array){
-  for(let i=array.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [array[i],array[j]]=[array[j],array[i]]
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for(let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  return array
+  return shuffled;
 }
 
-function getRandomCompliment(){
-  const available = compliments.filter((_,i)=>!usedCompliments.includes(i));
-  if(available.length===0) usedCompliments=[];
-  const idx = Math.floor(Math.random()*available.length);
+function getRandomCompliment() {
+  const available = compliments.filter((_, i) => !usedCompliments.includes(i));
+  if (available.length === 0) {
+    usedCompliments = [];
+  }
+  const idx = Math.floor(Math.random() * available.length);
   const complimentIdx = compliments.indexOf(available[idx]);
   usedCompliments.push(complimentIdx);
   return available[idx];
 }
 
-function updateCollectedDisplay(){
-  document.getElementById('collectedItems').innerHTML=collected.map(el=>`<span class="item">${el}</span>`).join('');
-  document.getElementById('collected').textContent=`${collected.length}/15`
+function updateCollectedDisplay() {
+  const itemsSpan = document.getElementById('collectedItems');
+  const collectedSpan = document.getElementById('collected');
+  
+  itemsSpan.innerHTML = collected.map(el => `<span class="item">${el}</span>`).join('');
+  collectedSpan.textContent = `${collected.length}/15`;
 }
 
-function createCat(el){
-  const cat=document.createElement('div');
-  cat.className='cat';
-  const x=12+(Math.random()*76);
-  const y=18+(Math.random()*54);
-  cat.style.left=`${x}vw`;
-  cat.style.top=`${y}vh`;
-  const i=elements.indexOf(el);
-  cat.style.background=`linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
-  cat.innerHTML=`🐱<br><span>${el}</span>`;
-  cat.onclick=()=>{
-    if(collected.includes(el))return showCompliment('Уже собран 💔');
-    const next=collected.length;
-    if(el===elements[next]){
+function createCat(el) {
+  const cat = document.createElement('div');
+  cat.className = 'cat';
+  
+  const x = 12 + (Math.random() * 76);
+  const y = 18 + (Math.random() * 54);
+  cat.style.left = `${x}vw`;
+  cat.style.top = `${y}vh`;
+  
+  const i = elements.indexOf(el);
+  cat.style.background = `linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
+  cat.innerHTML = `🐱<br><span>${el}</span>`;
+  
+  // Используем addEventListener вместо onclick для надежности
+  cat.addEventListener('click', function handleCatClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (collected.includes(el)) {
+      showCompliment('Уже собран 💔');
+      return;
+    }
+    
+    const next = collected.length;
+    if (el === elements[next]) {
       collected.push(el);
       cat.classList.add('collected');
       updateCollectedDisplay();
       showCompliment(getRandomCompliment());
       createHearts();
-      if(collected.length===15)setTimeout(()=>document.getElementById('winmsg').style.display='block',1200)
-    }else showCompliment(elements[next])
-  };
-  return cat
+      
+      if (collected.length === 15) {
+        setTimeout(() => {
+          document.getElementById('winmsg').style.display = 'block';
+        }, 1200);
+      }
+    } else {
+      showCompliment(elements[next]);
+    }
+  }, { passive: false });
+  
+  return cat;
 }
 
-function initCats(){
-  shuffleArray([...elements]).forEach(el=>document.body.appendChild(createCat(el)))
+function initCats() {
+  // Очищаем body от старых котов
+  const oldCats = document.querySelectorAll('.cat');
+  oldCats.forEach(cat => cat.remove());
+  
+  // Создаем новых
+  shuffleArray([...elements]).forEach(el => {
+    document.body.appendChild(createCat(el));
+  });
 }
 
-function showCompliment(text){
-  document.getElementById('msgText').textContent=text;
-  const m=document.getElementById('msg');
-  m.style.animation='none';
-  setTimeout(()=>m.style.animation='fadeInOut 3.5s forwards',10)
+function showCompliment(text) {
+  const msgText = document.getElementById('msgText');
+  const msg = document.getElementById('msg');
+  
+  msgText.textContent = text;
+  msg.style.animation = 'none';
+  msg.offsetHeight; // Force reflow
+  msg.style.animation = 'fadeInOut 3.5s forwards';
 }
 
-function createHearts(){
-  for(let i=0;i<15;i++)setTimeout(()=>createHeart(),40*i)
+function createHearts() {
+  for(let i = 0; i < 15; i++) {
+    setTimeout(() => createHeart(), 40 * i);
+  }
 }
 
-function createHeart(){
-  const h=document.createElement('div');
-  h.className='hearts';h.innerHTML='💖';
-  h.style.left=(Math.random()*90+5)+'vw';
-  h.style.top='85vh';
-  h.style.color='#ff69b4';
+function createHeart() {
+  const h = document.createElement('div');
+  h.className = 'hearts';
+  h.innerHTML = '💖';
+  h.style.left = (Math.random() * 90 + 5) + 'vw';
+  h.style.top = '85vh';
+  h.style.color = '#ff69b4';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),3500)
+  setTimeout(() => h.remove(), 3500);
 }
 
-initCats();
+// Инициализация
+document.addEventListener('DOMContentLoaded', initCats);
 </script>
 </body>
 </html>
