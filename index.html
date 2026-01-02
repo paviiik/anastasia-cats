@@ -215,75 +215,25 @@ body {
 @keyframes victoryPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.02)}}
 @keyframes phraseGlow{0%,100%{box-shadow:0 10px 30px rgba(30,60,114,0.3);border-color:rgba(30,60,114,0.4)}50%{box-shadow:0 15px 40px rgba(30,60,114,0.5);border-color:rgba(42,82,152,0.7)}}
 
-/* СМартфоны - максимальная компактность */
-@media(max-width:768px){
-  .header{top:6px;padding:6px 14px;font-size:clamp(13px, 5vw, 15px)}
-  .collected-count{bottom:6px;right:6px;padding:5px 8px;min-width:80px;font-size:clamp(11px, 4vw, 13px)}
-  .collected-list{bottom:clamp(12px, 5vh, 28px);left:6px;padding:5px 8px;max-width:clamp(180px, 40vw, 220px);max-height:clamp(60px, 11vh, 85px);font-size:clamp(10px, 3.5vw, 12px)}
-  
-  .instruction{padding:clamp(18px, 9vw, 32px);border-radius:20px;max-width:95vw;width:95vw}
-  .instruction .title{font-size:clamp(16px, 7vw, 20px);margin-bottom:12px}
-  .instruction .intro{font-size:clamp(13px, 4.5vw, 15px);margin-bottom:16px;padding:0 10px;line-height:1.4}
-  .instruction .rules{padding:14px;margin:12px 0;font-size:clamp(12px, 4vw, 14px);border-radius:15px}
+@media(max-width:480px){
+  .header{top:8px;padding:8px 16px;font-size:14px}
+  .collected-count{bottom:8px;right:8px;padding:6px 10px}
+  .collected-list{bottom:clamp(16px, 5vh, 32px);left:8px;padding:6px 10px}
+  .instruction{padding:clamp(20px, 10vw, 35px)}
+  .cat{width:clamp(42px, 13vw, 55px);height:clamp(42px, 13vw, 55px)}
+  .winmsg{padding:clamp(20px, 10vw, 35px)}
+}
+
+@media(max-width:360px){
+  .instruction .rules{padding:15px;font-size:13px}
   .instruction .rules ol{padding-left:20px}
-  .instruction .rules li{margin-bottom:6px}
-  .instruction .lis{margin:16px 0 20px 0;padding:12px 16px;font-size:clamp(14px, 4.8vw, 16px);border-radius:12px}
-  .instruction .start-btn{padding:clamp(12px, 5vw, 14px) clamp(20px, 9vw, 28px);min-height:44px;font-size:clamp(13px, 4.5vw, 15px);border-radius:18px}
-  
-  .cat{width:clamp(38px, 14vw, 58px) !important;height:clamp(38px, 14vw, 58px) !important;font-size:clamp(15px, 6vw, 20px)}
-  .cat span{font-size:clamp(9px, 3.5vw, 13px) !important}
-  
-  .message{padding:clamp(14px, 7vw, 18px);max-width:clamp(280px, 90vw, 360px);font-size:clamp(14px, 5vw, 16px);border-radius:18px}
-  
-  .winmsg{padding:clamp(20px, 9vw, 35px);max-width:95vw;width:95vw;border-radius:22px}
-  .winmsg .final-phrase{padding:16px 20px;margin:12px 0;font-size:clamp(13px, 4.8vw, 15px);border-radius:18px;margin-bottom:10px}
-  
-  /* Очень маленькие экраны */
-  @media(max-width:480px){
-    .header{top:4px;padding:5px 12px;font-size:13px}
-    .collected-count{bottom:4px;right:4px;padding:4px 7px;font-size:12px;min-width:75px}
-    .collected-list{bottom:clamp(10px, 4.5vh, 24px);left:4px;padding:4px 7px;font-size:10px;max-height:clamp(55px, 10vh, 75px)}
-    
-    .instruction{padding:clamp(16px, 10vw, 28px)}
-    .instruction .title{font-size:clamp(15px, 8vw, 18px)}
-    .instruction .intro{font-size:clamp(12px, 5vw, 14px);padding:0 8px}
-    .instruction .rules{padding:12px;font-size:12px;border-radius:12px}
-    .instruction .rules ol{padding-left:18px}
-    .instruction .lis{padding:10px 14px;font-size:14px}
-    .instruction .start-btn{min-height:42px;border-radius:16px}
-    
-    .cat{width:clamp(36px, 15vw, 54px) !important;height:clamp(36px, 15vw, 54px) !important}
-    .cat span{font-size:clamp(8px, 4vw, 12px) !important}
-    
-    .message{padding:clamp(12px, 8vw, 16px);font-size:clamp(13px, 5.5vw, 15px)}
-    .winmsg{padding:clamp(18px, 10vw, 30px)}
-    .winmsg .final-phrase{padding:14px 18px;font-size:clamp(12px, 5.2vw, 14px)}
-  }
-  
-  /* Самые маленькие экраны */
-  @media(max-width:360px){
-    .header{padding:4px 10px;font-size:12px}
-    .collected-count{padding:3px 6px;font-size:11px}
-    .collected-list{padding:3px 6px;font-size:9px}
-    
-    .instruction{padding:clamp(14px, 11vw, 24px)}
-    .instruction .rules{padding:10px;font-size:11px}
-    .instruction .rules ol{padding-left:16px}
-    .instruction .lis{padding:8px 12px;font-size:13px}
-    .instruction .start-btn{padding:12px 20px;font-size:13px}
-    
-    .cat{width:clamp(34px, 16vw, 50px) !important;height:clamp(34px, 16vw, 50px) !important}
-    .cat span{font-size:clamp(7px, 4.5vw, 11px) !important}
-    
-    .message{font-size:12px;padding:12px}
-    .winmsg .final-phrase{padding:12px 16px;font-size:12px}
-  }
+  .instruction .lis{padding:12px 16px;font-size:15px}
 }
 </style>
 
 <script>
-const elements = ['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P']; // ✅ 15 элементов ИСПРАВЛЕНО
-const colors = ['#e91e63','#4db6ac','#2196f3','#ffeb3b','#ff9800','#f44336','#9c27b0','#cddc39','#e91e63','#ffeb3b','#f44336','#26a69a','#26c6da','#3f51b5','#9e9e9e'];
+const elements=['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P'];
+const colors=['#e91e63','#4db6ac','#2196f3','#ffeb3b','#ff9800','#f44336','#9c27b0','#cddc39','#e91e63','#ffeb3b','#f44336','#26a69a','#26c6da','#3f51b5','#9e9e9e'];
 
 let collected = [];
 let usedCompliments = [];
@@ -293,7 +243,7 @@ let cats = [];
 let animationId;
 
 const compliments = [
-  '«Смотри, какая дорога за нами...»',
+  '«Смотри, какая дорога за нами…»',
   '«Нас не разлей водой, и это проверено временем»',
   '«Ты — мой самый главный человек. Без вариантов»',
   '«Иногда нужно просто переждать бурю, держась за руки»',
@@ -384,6 +334,7 @@ function createCat(el, index) {
     }
   });
   
+  // Touch events for mobile
   cat.addEventListener('touchstart', function(e) {
     e.preventDefault();
     const touch = e.touches[0];
@@ -403,7 +354,7 @@ function initCats() {
   cats = [];
   const shuffledElements = shuffleArray([...elements]);
   
-  const safeArea = window.innerWidth < 768 ? 50 : 60;
+  const safeArea = 60;
   const maxW = window.innerWidth - safeArea * 2;
   const maxH = window.innerHeight - safeArea * 2;
   
@@ -456,7 +407,7 @@ function resolveCollision(a, b) {
 }
 
 function updateBounds() {
-  const safeArea = window.innerWidth < 768 ? 50 : 60;
+  const safeArea = 60;
   return {
     left: safeArea,
     top: safeArea,
@@ -525,7 +476,7 @@ function animate() {
 
 window.addEventListener('resize', () => {
   if (cats.length > 0) {
-    const safeArea = window.innerWidth < 768 ? 50 : 60;
+    const safeArea = 60;
     cats.forEach(cat => {
       cat.x = Math.max(safeArea, Math.min(window.innerWidth - safeArea, cat.x));
       cat.y = Math.max(safeArea, Math.min(window.innerHeight - safeArea, cat.y));
