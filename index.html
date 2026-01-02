@@ -1,9 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Коты Менделеева</title>
+</head>
+<body>
+<div class="header">Коты Менделеева. Кликай по порядку <span id="collected">0/15</span></div>
+<div class="collected-count">H→He→Li→Be→B→C→N→O→F→Ne→Na→Mg→Al→Si→P</div>
+<div class="collected-list">Собрано: <span id="collectedItems"></span></div>
+
+<div class="instruction" id="instruction">
+  <div class="title">🎮 Коты Менделеева</div>
+  <div class="intro">Лисенок, после того, как ты будешь правильно собирать последовательность, будут появляться фразы, которые на данный момент многое значат для нас.</div>
+  <div class="rules">
+    <strong>Правила игры:</strong>
+    <ol>
+      <li>Кликай по котам в строгой последовательности периодической таблицы</li>
+      <li>Начни с H (водород), затем He (гелий) и так далее</li>
+      <li>Если кликнешь не по порядку — подскажу, какой нужен следующий</li>
+      <li>Собери все 15 элементов до P (фосфор)</li>
+    </ol>
+  </div>
+  <div class="lis">Кликай по котам и собирай нашу историю 💖</div>
+  <button class="start-btn" onclick="startGame()">Начать игру</button>
+</div>
+
+<div class="cats-container" id="catsContainer" style="display:none"></div>
+
+<div class="message" id="msg" style="display:none"><div id="msgText">Начинай с H</div></div>
+<div class="winmsg" id="winmsg" style="display:none">
+  <div class="final-phrase">"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь"</div>
+  <div class="final-phrase">"Я далеко не дурак, давай попробуем еще раз"</div>
+  <div class="final-phrase">"Я стану лучшим в твоих глазах, просто поверь мне снова."</div>
+</div>
+
 <style>
 * {margin:0;padding:0;box-sizing:border-box}
 body {
@@ -198,36 +229,6 @@ body {
   .instruction .start-btn{padding:12px 28px;font-size:15px}
 }
 </style>
-</head>
-<body>
-<div class="header">Коты Менделеева. Кликай по порядку <span id="collected">0/15</span></div>
-<div class="collected-count">H→He→Li→Be→B→C→N→O→F→Ne→Na→Mg→Al→Si→P</div>
-<div class="collected-list">Собрано: <span id="collectedItems"></span></div>
-
-<div class="instruction" id="instruction">
-  <div class="title">🎮 Коты Менделеева</div>
-  <div class="intro">Лисенок, после того, как ты будешь правильно собирать последовательность, будут появляться фразы, которые на данный момент многое значат для нас.</div>
-  <div class="rules">
-    <strong>Правила игры:</strong>
-    <ol>
-      <li>Кликай по котам в строгой последовательности периодической таблицы</li>
-      <li>Начни с H (водород), затем He (гелий) и так далее</li>
-      <li>Если кликнешь не по порядку — подскажу, какой нужен следующий</li>
-      <li>Собери все 15 элементов до P (фосфор)</li>
-    </ol>
-  </div>
-  <div class="lis">Кликай по котам и собирай нашу историю 💖</div>
-  <button class="start-btn" onclick="startGame()">Начать игру</button>
-</div>
-
-<div class="cats-container" id="catsContainer" style="display:none"></div>
-
-<div class="message" id="msg" style="display:none"><div id="msgText">Начинай с H</div></div>
-<div class="winmsg" id="winmsg" style="display:none">
-  <div class="final-phrase">"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь"</div>
-  <div class="final-phrase">"Я далеко не дурак, давай попробуем еще раз"</div>
-  <div class="final-phrase">"Я стану лучшим в твоих глазах, просто поверь мне снова."</div>
-</div>
 
 <script>
 const elements=['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P'];
@@ -484,10 +485,6 @@ function createHeart() {
   document.body.appendChild(h);
   setTimeout(() => h.remove(), 3500);
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Коты создаются только после нажатия кнопки
-});
 </script>
 </body>
 </html>
