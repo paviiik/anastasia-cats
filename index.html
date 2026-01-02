@@ -98,60 +98,9 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   pointer-events:auto;
+  will-change: transform;
 }
 .cat span{font-size:12px!important;line-height:1;font-weight:900!important}
-
-@keyframes bouncePath1 {
-  0%{transform:translate(5vw,10vh) rotate(0deg)}
-  12%{transform:translate(20vw,5vh) rotate(45deg)}
-  25%{transform:translate(35vw,15vh) rotate(90deg)}
-  37%{transform:translate(50vw,8vh) rotate(135deg)}
-  50%{transform:translate(65vw,20vh) rotate(180deg)}
-  62%{transform:translate(45vw,12vh) rotate(225deg)}
-  75%{transform:translate(25vw,18vh) rotate(270deg)}
-  87%{transform:translate(10vw,8vh) rotate(315deg)}
-  100%{transform:translate(5vw,10vh) rotate(360deg)}
-}
-@keyframes bouncePath2 {
-  0%{transform:translate(75vw,25vh) rotate(0deg)}
-  12%{transform:translate(60vw,35vh) rotate(-45deg)}
-  25%{transform:translate(40vw,28vh) rotate(-90deg)}
-  37%{transform:translate(20vw,40vh) rotate(-135deg)}
-  50%{transform:translate(35vw,32vh) rotate(-180deg)}
-  62%{transform:translate(55vw,22vh) rotate(-225deg)}
-  75%{transform:translate(70vw,30vh) rotate(-270deg)}
-  87%{transform:translate(80vw,18vh) rotate(-315deg)}
-  100%{transform:translate(75vw,25vh) rotate(-360deg)}
-}
-@keyframes bouncePath3 {
-  0%{transform:translate(15vw,45vh) rotate(0deg)}
-  12%{transform:translate(30vw,55vh) rotate(60deg)}
-  25%{transform:translate(55vw,48vh) rotate(120deg)}
-  37%{transform:translate(70vw,60vh) rotate(180deg)}
-  50%{transform:translate(50vw,52vh) rotate(240deg)}
-  62%{transform:translate(25vw,58vh) rotate(300deg)}
-  75%{transform:translate(10vw,50vh) rotate(360deg)}
-  87%{transform:translate(35vw,42vh) rotate(420deg)}
-  100%{transform:translate(15vw,45vh) rotate(360deg)}
-}
-@keyframes bouncePath4 {
-  0%{transform:translate(45vw,15vh) rotate(0deg)}
-  12%{transform:translate(60vw,25vh) rotate(-30deg)}
-  25%{transform:translate(80vw,20vh) rotate(-60deg)}
-  37%{transform:translate(65vw,35vh) rotate(-90deg)}
-  50%{transform:translate(40vw,28vh) rotate(-120deg)}
-  62%{transform:translate(20vw,22vh) rotate(-150deg)}
-  75%{transform:translate(5vw,30vh) rotate(-180deg)}
-  87%{transform:translate(25vw,12vh) rotate(-210deg)}
-  100%{transform:translate(45vw,15vh) rotate(-360deg)}
-}
-
-.cat.path1{animation:bouncePath1 10s infinite ease-in-out}
-.cat.path2{animation:bouncePath2 12s infinite ease-in-out;animation-delay:1s}
-.cat.path3{animation:bouncePath3 11s infinite ease-in-out;animation-delay:3s}
-.cat.path4{animation:bouncePath4 9s infinite ease-in-out;animation-delay:5s}
-.cat:nth-child(5n){animation-duration:8s}
-.cat:nth-child(3n){animation-duration:13s}
 
 .cat:hover {
   transform:scale(1.2) rotate(15deg) translateY(-8px)!important;
@@ -307,6 +256,8 @@ let collected = [];
 let usedCompliments = [];
 let gameStarted = false;
 let catsContainer;
+let cats = [];
+let rafId;
 
 function startGame() {
   document.getElementById('instruction').style.display = 'none';
@@ -353,21 +304,25 @@ function createCat(el, pathIndex) {
   cat.style.background = `linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
   cat.innerHTML = `🐱<br><span>${el}</span>`;
   
+  // Физика кота
+  cat.vx = (Math.random() - 0.5) * 0.8;
+  cat.vy = (Math.random() - 0.5) * 0.8;
+  cat.radius = 27.5;
+  cat.isCollected = false;
+  
   cat.addEventListener('click', function handleCatClick(e) {
     e.preventDefault();
     e.stopPropagation();
     
-    if (!gameStarted) return;
-    
-    if (collected.includes(el)) {
-      showCompliment('Уже собран 💔');
-      return;
-    }
+    if (!gameStarted || cat.isCollected) return;
     
     const next = collected.length;
     if (el === elements[next]) {
       collected.push(el);
+      cat.isCollected = true;
       cat.classList.add('collected');
+      cat.vx = 0;
+      cat.vy = 0;
       updateCollectedDisplay();
       showCompliment(getRandomCompliment());
       createHearts();
@@ -387,12 +342,118 @@ function createCat(el, pathIndex) {
 
 function initCats() {
   catsContainer.innerHTML = '';
+  cats = [];
   const shuffledElements = shuffleArray([...elements]);
   
   shuffledElements.forEach((el, index) => {
     const cat = createCat(el, index);
+    
+    // Начальные позиции по путям
+    const pathStarts = [
+      {x: 5, y: 10},
+      {x: 75, y: 25},
+      {x: 15, y: 45},
+      {x: 45, y: 15}
+    ];
+    const start = pathStarts[index % 4];
+    cat.x = (start.x * window.innerWidth) / 100;
+    cat.y = (start.y * window.innerHeight) / 100;
+    
+    cat.style.left = cat.x + 'px';
+    cat.style.top = cat.y + 'px';
+    
     catsContainer.appendChild(cat);
+    cats.push(cat);
   });
+  
+  // Запуск физики
+  animate();
+}
+
+function checkCollision(cat1, cat2) {
+  const dx = cat2.x + cat2.radius - (cat1.x + cat1.radius);
+  const dy = cat2.y + cat2.radius - (cat1.y + cat1.radius);
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  return dist < cat1.radius + cat2.radius;
+}
+
+function resolveCollision(cat1, cat2) {
+  const dx = cat2.x - cat1.x;
+  const dy = cat2.y - cat1.y;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  
+  // Нормализация
+  const nx = dx / dist;
+  const ny = dy / dist;
+  
+  // Относительная скорость
+  const dvx = cat2.vx - cat1.vx;
+  const dvy = cat2.vy - cat1.vy;
+  
+  // Компонент скорости вдоль линии столкновения
+  const impulse = 2 * (dvx * nx + dvy * ny) / 2;
+  
+  // Обмен скоростями
+  cat1.vx += impulse * nx * 0.8;
+  cat1.vy += impulse * ny * 0.8;
+  cat2.vx -= impulse * nx * 0.8;
+  cat2.vy -= impulse * ny * 0.8;
+  
+  // Разделение при пересечении
+  const overlap = cat1.radius + cat2.radius - dist;
+  if (overlap > 0) {
+    const sepX = nx * overlap * 0.5;
+    const sepY = ny * overlap * 0.5;
+    cat1.x -= sepX;
+    cat1.y -= sepY;
+    cat2.x += sepX;
+    cat2.y += sepY;
+  }
+}
+
+function animate() {
+  cats.forEach(cat => {
+    if (cat.isCollected) return;
+    
+    // Обновление позиции
+    cat.x += cat.vx;
+    cat.y += cat.vy;
+    
+    // Отскок от стен
+    if (cat.x - cat.radius < 0 || cat.x + cat.radius > window.innerWidth) {
+      cat.vx *= -0.9;
+      cat.x = Math.max(cat.radius, Math.min(window.innerWidth - cat.radius, cat.x));
+    }
+    if (cat.y - cat.radius < 0 || cat.y + cat.radius > window.innerHeight) {
+      cat.vy *= -0.9;
+      cat.y = Math.max(cat.radius, Math.min(window.innerHeight - cat.radius, cat.y));
+    }
+    
+    // Трение
+    cat.vx *= 0.98;
+    cat.vy *= 0.98;
+    
+    // Обновление позиции DOM
+    cat.style.left = cat.x + 'px';
+    cat.style.top = cat.y + 'px';
+    
+    // Вращение
+    const rotate = parseFloat(cat.style.transform?.match(/rotate\(([^)]+)\)/)?.[1] || '0deg') || 0;
+    cat.style.transform = `rotate(${rotate + cat.vx * 2}deg)`;
+  });
+  
+  // Проверка столкновений
+  for (let i = 0; i < cats.length; i++) {
+    for (let j = i + 1; j < cats.length; j++) {
+      const cat1 = cats[i];
+      const cat2 = cats[j];
+      if (!cat1.isCollected && !cat2.isCollected && checkCollision(cat1, cat2)) {
+        resolveCollision(cat1, cat2);
+      }
+    }
+  }
+  
+  rafId = requestAnimationFrame(animate);
 }
 
 function showCompliment(text) {
