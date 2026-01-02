@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Коты Менделеева</title>
 </head>
 <body>
@@ -48,36 +48,42 @@ body {
   -webkit-user-select:none;
   -moz-user-select:none;
   -ms-user-select:none;
+  touch-action:manipulation;
 }
 
 .header {
   position:fixed;top:12px;left:50%;transform:translateX(-50%);
   background:rgba(255,255,255,0.1);backdrop-filter:blur(15px);
-  padding:10px 24px;border-radius:25px;font-size:16px;font-weight:600;
+  padding:10px 24px;border-radius:25px;font-size:clamp(14px, 4vw, 16px);font-weight:600;
   color:#fff;box-shadow:0 8px 25px rgba(0,0,0,0.3);z-index:100;
   border:1px solid rgba(255,255,255,0.2);pointer-events:none;
+  max-width:90vw;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .header span{color:#ffd700;font-weight:800}
 
 .instruction {
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
   background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(248,250,252,0.95));
-  backdrop-filter:blur(25px);padding:45px;border-radius:25px;
-  box-shadow:0 30px 80px rgba(0,0,0,0.5);text-align:center;font-size:16px;
-  max-width:480px;border:3px solid rgba(30,60,114,0.8);z-index:400;
+  backdrop-filter:blur(25px);padding:clamp(25px, 8vw, 45px);border-radius:25px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.5);text-align:center;font-size:clamp(14px, 4.5vw, 16px);
+  max-width:clamp(320px, 90vw, 480px);border:3px solid rgba(30,60,114,0.8);z-index:400;
   animation:instructionSlide 0.8s ease-out forwards;
+  width:90vw;
 }
 .instruction .title {
-  color:#1e3c72;font-weight:800;font-size:22px;margin-bottom:18px;
+  color:#1e3c72;font-weight:800;font-size:clamp(18px, 6vw, 22px);margin-bottom:18px;
   letter-spacing:0.5px;text-shadow:0 2px 4px rgba(0,0,0,0.1);
 }
 .instruction .intro {
-  color:#2a5298;font-weight:700;font-size:16px;margin-bottom:20px;
+  color:#2a5298;font-weight:700;font-size:clamp(14px, 4vw, 16px);margin-bottom:20px;
   line-height:1.5;padding:0 15px;
 }
 .instruction .rules {
   background:rgba(30,60,114,0.05);border:2px solid rgba(30,60,114,0.2);
-  border-radius:18px;padding:20px;margin:20px 0;font-size:15px;
+  border-radius:18px;padding:20px;margin:20px 0;font-size:clamp(13px, 3.8vw, 15px);
   color:#1e3c72;line-height:1.6;
 }
 .instruction .rules ol {
@@ -87,17 +93,19 @@ body {
   margin-bottom:8px;font-weight:500;
 }
 .instruction .lis {
-  display:block;margin:25px 0 30px 0;font-size:17px;font-weight:800;
+  display:block;margin:25px 0 30px 0;font-size:clamp(15px, 4.2vw, 17px);font-weight:800;
   color:#8b4513;background:rgba(255,248,225,0.8);
   padding:15px 20px;border:2px solid #daa520;border-radius:15px;
   box-shadow:0 8px 25px rgba(218,165,32,0.2);letter-spacing:0.2px;
 }
 .instruction .start-btn {
-  display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#1e3c72,#2a5298);
-  color:#fff;font-size:16px;font-weight:700;border-radius:20px;
+  display:inline-block;padding:clamp(12px, 4vw, 14px) clamp(24px, 8vw, 32px);background:linear-gradient(135deg,#1e3c72,#2a5298);
+  color:#fff;font-size:clamp(14px, 4vw, 16px);font-weight:700;border-radius:20px;
   box-shadow:0 8px 25px rgba(30,60,114,0.4);border:2px solid rgba(255,255,255,0.2);
   cursor:pointer;transition:all 0.3s ease;letter-spacing:0.5px;
   text-decoration:none;text-transform:uppercase;position:relative;overflow:hidden;
+  min-height:48px;
+  width:100%;max-width:280px;
 }
 .instruction .start-btn:hover {
   transform:translateY(-2px);box-shadow:0 12px 35px rgba(30,60,114,0.6);
@@ -116,29 +124,24 @@ body {
   pointer-events:none;z-index:10;
 }
 .cat {
-  position:absolute;width:55px;height:55px;border-radius:50%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  font-size:19px;font-weight:900;color:#fff;
+  position:absolute;width:clamp(45px, 12vw, 65px);height:clamp(45px, 12vw, 65px);
+  border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:clamp(16px, 5vw, 22px);font-weight:900;color:#fff;
   cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.4);
   backdrop-filter:blur(10px);border:3px solid rgba(255,255,255,0.6);
-  user-select:none;
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  pointer-events:auto;
-  will-change:transform;
-  transition:none;
+  user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;
+  pointer-events:auto;will-change:transform;transition:none;
+  touch-action:manipulation;
 }
-.cat span{font-size:12px!important;line-height:1;font-weight:900!important;text-shadow:1px 1px 2px rgba(0,0,0,0.5)}
+.cat span{font-size:clamp(10px, 3vw, 14px)!important;line-height:1;font-weight:900!important;text-shadow:1px 1px 2px rgba(0,0,0,0.5)}
 
-.cat:hover {
+.cat:hover, .cat:active {
   transform:scale(1.25) !important;
   z-index:50;box-shadow:0 20px 40px rgba(0,0,0,0.8) !important;
 }
 
 .cat.collected {
   opacity:0.4;transform:scale(0.8);
-  /* НЕ выключаем движение, только визуальный эффект */
   box-shadow:0 0 30px rgba(255,215,0,1);
   border-color:rgba(255,215,0,1);
   filter:drop-shadow(0 0 15px rgba(255,215,0,0.9));
@@ -147,11 +150,10 @@ body {
 .message {
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
   background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);
-  padding:20px;border-radius:20px;box-shadow:0 15px 50px rgba(0,0,0,0.4);
-  text-align:center;font-size:17px;max-width:380px;font-weight:500;
-  border:2px solid rgba(255,255,255,0.8);z-index:200;
-  animation:fadeInOut 3.5s forwards;
-  pointer-events:none;
+  padding:clamp(16px, 6vw, 20px);border-radius:20px;box-shadow:0 15px 50px rgba(0,0,0,0.4);
+  text-align:center;font-size:clamp(15px, 4.5vw, 17px);max-width:clamp(300px, 85vw, 380px);
+  font-weight:500;border:2px solid rgba(255,255,255,0.8);z-index:200;
+  animation:fadeInOut 3.5s forwards;pointer-events:none;
 }
 @keyframes fadeInOut {
   0%{opacity:0;transform:translate(-50%,-50%) scale(0.9)}
@@ -166,61 +168,66 @@ body {
 
 .collected-count {
   position:fixed;bottom:12px;right:12px;background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
-  font-size:14px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
-  border:1px solid rgba(255,255,255,0.2);min-width:100px;
-  text-align:center;
+  backdrop-filter:blur(15px);padding:8px 12px;border-radius:16px;
+  font-size:clamp(12px, 3.5vw, 14px);font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
+  border:1px solid rgba(255,255,255,0.2);min-width:90px;text-align:center;
+  max-width:30vw;
 }
 .collected-list {
-  position:fixed;bottom:40px;left:12px;background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
-  font-size:13px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
-  max-width:240px;max-height:95px;overflow-y:auto;
+  position:fixed;bottom:clamp(20px, 6vh, 40px);left:12px;background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(15px);padding:8px 12px;border-radius:16px;
+  font-size:clamp(11px, 3vw, 13px);font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
+  max-width:clamp(200px, 35vw, 240px);max-height:clamp(70px, 12vh, 95px);overflow-y:auto;
   border:1px solid rgba(255,255,255,0.2);
 }
 .collected-list .item {
-  display:inline-block;margin:1px 2px;padding:3px 7px;background:rgba(255,255,255,0.3);
+  display:inline-block;margin:1px 2px;padding:3px 6px;background:rgba(255,255,255,0.3);
   border-radius:10px;border:1px solid rgba(255,255,255,0.5);color:#fff;
-  font-size:12px;font-weight:700;margin-bottom:2px;
+  font-size:clamp(10px, 2.8vw, 12px);font-weight:700;margin-bottom:2px;
   box-shadow:0 1px 4px rgba(0,0,0,0.2);animation:popIn 0.3s ease-out
 }
 @keyframes popIn{0%{transform:scale(0)}100%{transform:scale(1)}}
 
-.hearts{position:fixed;pointer-events:none;font-size:16px;z-index:150;animation:floatHearts 3s forwards}
+.hearts{position:fixed;pointer-events:none;font-size:clamp(14px, 4vw, 16px);z-index:150;animation:floatHearts 3s forwards}
 @keyframes floatHearts{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-100px) scale(1.2)}}
 
 .winmsg {
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
   background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(248,250,252,0.95));
-  backdrop-filter:blur(30px);padding:40px;border-radius:25px;
-  box-shadow:0 35px 90px rgba(0,0,0,0.6);text-align:center;font-size:16px;
-  max-width:480px;border:3px solid rgba(30,60,114,0.9);z-index:300;
-  animation:victoryPulse 2.5s infinite;line-height:1.5;
-  pointer-events:none;
+  backdrop-filter:blur(30px);padding:clamp(25px, 8vw, 40px);border-radius:25px;
+  box-shadow:0 35px 90px rgba(0,0,0,0.6);text-align:center;font-size:clamp(14px, 4.2vw, 16px);
+  max-width:clamp(350px, 90vw, 480px);border:3px solid rgba(30,60,114,0.9);z-index:300;
+  animation:victoryPulse 2.5s infinite;line-height:1.5;pointer-events:none;
+  width:90vw;
 }
 .winmsg .final-phrase {
-  display:block;margin:18px 0;padding:20px 25px;
+  display:block;margin:15px 0;padding:18px 22px;
   background:linear-gradient(135deg,rgba(30,60,114,0.08),rgba(42,82,152,0.1));
   border:2px solid rgba(30,60,114,0.4);border-radius:20px;
   box-shadow:0 10px 30px rgba(30,60,114,0.3);
-  color:#1e3c72;font-weight:700;font-size:16px;letter-spacing:0.4px;
+  color:#1e3c72;font-weight:700;font-size:clamp(14px, 4vw, 16px);letter-spacing:0.4px;
   position:relative;overflow:hidden;animation:phraseGlow 3s infinite;
+  margin-bottom:12px;
 }
+.winmsg .final-phrase:last-child{margin-bottom:0}
 .winmsg .final-phrase:nth-child(2){animation-delay:0.3s}
 .winmsg .final-phrase:nth-child(3){animation-delay:0.6s}
 @keyframes victoryPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.02)}}
 @keyframes phraseGlow{0%,100%{box-shadow:0 10px 30px rgba(30,60,114,0.3);border-color:rgba(30,60,114,0.4)}50%{box-shadow:0 15px 40px rgba(30,60,114,0.5);border-color:rgba(42,82,152,0.7)}}
 
-@media(max-width:768px){
-  .cat{width:48px;height:48px;font-size:17px}
-  .cat span{font-size:11px!important}
-  .header{font-size:14px;padding:8px 18px}
-  .winmsg{padding:30px;font-size:15px;max-width:90vw}
-  .collected-list{bottom:36px;left:8px;font-size:12px}
-  .collected-count{bottom:8px;right:8px}
-  .instruction{padding:30px;font-size:15px;max-width:90vw}
-  .instruction .title{font-size:20px}
-  .instruction .start-btn{padding:12px 28px;font-size:15px}
+@media(max-width:480px){
+  .header{top:8px;padding:8px 16px;font-size:14px}
+  .collected-count{bottom:8px;right:8px;padding:6px 10px}
+  .collected-list{bottom:clamp(16px, 5vh, 32px);left:8px;padding:6px 10px}
+  .instruction{padding:clamp(20px, 10vw, 35px)}
+  .cat{width:clamp(42px, 13vw, 55px);height:clamp(42px, 13vw, 55px)}
+  .winmsg{padding:clamp(20px, 10vw, 35px)}
+}
+
+@media(max-width:360px){
+  .instruction .rules{padding:15px;font-size:13px}
+  .instruction .rules ol{padding-left:20px}
+  .instruction .lis{padding:12px 16px;font-size:15px}
 }
 </style>
 
@@ -295,7 +302,8 @@ function createCat(el, index) {
   cat.style.background = `linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
   cat.innerHTML = `🐱<br><span>${el}</span>`;
   
-  cat.radius = 27.5;
+  const size = Math.min(window.innerWidth, window.innerHeight) * 0.06;
+  cat.radius = size / 2;
   cat.isCollected = false;
   cat.angle = Math.random() * Math.PI * 2;
   cat.baseSpeed = 0.8 + Math.random() * 0.6;
@@ -326,6 +334,18 @@ function createCat(el, index) {
     }
   });
   
+  // Touch events for mobile
+  cat.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = cat.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+      cat.click();
+    }
+  }, { passive: false });
+  
   return cat;
 }
 
@@ -334,10 +354,14 @@ function initCats() {
   cats = [];
   const shuffledElements = shuffleArray([...elements]);
   
+  const safeArea = 60;
+  const maxW = window.innerWidth - safeArea * 2;
+  const maxH = window.innerHeight - safeArea * 2;
+  
   shuffledElements.forEach((el, index) => {
     const cat = createCat(el, index);
-    cat.x = 60 + (Math.random() - 0.5) * (window.innerWidth - 120);
-    cat.y = 60 + (Math.random() - 0.5) * (window.innerHeight - 120);
+    cat.x = safeArea + (Math.random() - 0.5) * maxW;
+    cat.y = safeArea + (Math.random() - 0.5) * maxH;
     
     cat.style.left = `${cat.x}px`;
     cat.style.top = `${cat.y}px`;
@@ -383,11 +407,12 @@ function resolveCollision(a, b) {
 }
 
 function updateBounds() {
+  const safeArea = 60;
   return {
-    left: 0,
-    top: 0,
-    right: window.innerWidth,
-    bottom: window.innerHeight
+    left: safeArea,
+    top: safeArea,
+    right: window.innerWidth - safeArea,
+    bottom: window.innerHeight - safeArea
   };
 }
 
@@ -395,7 +420,6 @@ function animate() {
   const bounds = updateBounds();
   
   cats.forEach(cat => {
-    // Все коты (включая собранные) продолжают летать
     cat.x += cat.vx;
     cat.y += cat.vy;
     cat.rotation += cat.rotationSpeed;
@@ -441,7 +465,6 @@ function animate() {
     for (let j = i + 1; j < cats.length; j++) {
       const cat1 = cats[i];
       const cat2 = cats[j];
-      // Столкновения считаем для всех, чтобы они не слипались
       if (checkCollision(cat1, cat2)) {
         resolveCollision(cat1, cat2);
       }
@@ -453,9 +476,12 @@ function animate() {
 
 window.addEventListener('resize', () => {
   if (cats.length > 0) {
+    const safeArea = 60;
     cats.forEach(cat => {
-      cat.x = Math.max(40, Math.min(window.innerWidth - 40, cat.x));
-      cat.y = Math.max(40, Math.min(window.innerHeight - 40, cat.y));
+      cat.x = Math.max(safeArea, Math.min(window.innerWidth - safeArea, cat.x));
+      cat.y = Math.max(safeArea, Math.min(window.innerHeight - safeArea, cat.y));
+      const size = Math.min(window.innerWidth, window.innerHeight) * 0.06;
+      cat.radius = size / 2;
     });
   }
 });
