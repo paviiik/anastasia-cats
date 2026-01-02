@@ -5,42 +5,61 @@
 <meta name="viewport" content="width=device-width">
 <title>🐱 Коты Менделеева для Анастасии 💕</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}body{height:100vh;background:linear-gradient(45deg,#ff9a9e,#fecfef,#a8e6cf,#dcedc1);background-size:500% 500%;animation:gradient 20s ease infinite;overflow:hidden;font-family:system-ui;cursor:pointer;position:relative}
-@keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.header{position:fixed;top:15px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.95);padding:12px 25px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,0.2);font-size:18px;font-weight:600;z-index:100;backdrop-filter:blur(15px)}
-.header span{color:#ff6b9d;font-size:22px}
-.cat{position:absolute;width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;font-weight:600;transition:all 0.6s ease;user-select:none;cursor:pointer;box-shadow:0 12px 35px rgba(0,0,0,0.4);backdrop-filter:blur(12px);animation:floatMove 8s infinite linear;padding:8px}
-.cat span{font-size:20px !important;line-height:1.1 !important;margin-top:-2px !important}
-@keyframes floatMove{0%{transform:translate(0,0) rotate(0deg);opacity:1}25%{transform:translate(50px,-30px) rotate(90deg)}50%{transform:translate(100px,20px) rotate(180deg)}75%{transform:translate(20px,-50px) rotate(270deg)}100%{transform:translate(0,0) rotate(360deg);opacity:1}}
-.cat:nth-child(odd){animation-direction:reverse;animation-duration:10s}
-.cat:nth-child(3n){animation-duration:12s}
-.cat:nth-child(5n){animation-duration:6s}
-.cat:hover{transform:scale(1.3) rotate(15deg)!important;z-index:20;filter:drop-shadow(0 0 30px currentColor)}
-.cat.collected{opacity:0.3;transform:scale(0.8) translateY(-20px);pointer-events:none;animation:collectedGlow 2s ease-in-out infinite;border:3px solid rgba(255,255,255,0.8);box-shadow:0 0 25px rgba(255,107,157,0.6)}
-@keyframes collectedGlow{0%,100%{box-shadow:0 0 25px rgba(255,107,157,0.6);transform:scale(0.8) translateY(-20px)}50%{box-shadow:0 0 35px rgba(255,107,157,0.9);transform:scale(0.85) translateY(-25px)}}
-.message{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(255,248,255,0.9));padding:30px;border-radius:25px;box-shadow:0 25px 60px rgba(0,0,0,0.4);text-align:center;font-size:20px;max-width:450px;border:4px solid #ff6b9d;backdrop-filter:blur(20px);z-index:200;animation:fadeInOut 4s forwards}
-@keyframes fadeInOut{0%{opacity:0;transform:translate(-50%,-50%) scale(0.8)}20%{opacity:1;transform:translate(-50%,-50%) scale(1)}80%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-30%) scale(1.1)}}
-.collected-count{position:fixed;bottom:20px;right:20px;background:rgba(255,255,255,0.9);padding:15px;border-radius:20px;font-size:18px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:100;color:#ff6b9d}
-.collected-list{position:fixed;bottom:60px;left:20px;background:rgba(255,255,255,0.95);padding:15px;border-radius:20px;font-size:16px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:100;max-width:300px;max-height:120px;overflow-y:auto}
-.collected-list .item{display:inline-block;margin:3px 5px;padding:5px 8px;background:rgba(255,107,157,0.2);border-radius:15px;border:2px solid #ff6b9d;color:#ff6b9d}
-.hearts{position:fixed;pointer-events:none;font-size:22px;z-index:150;animation:float 3s forwards}
-@keyframes float{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-120px) scale(1.4)}}
-.winmsg{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#ff9a9e,#fecfef);color:white;padding:40px;border-radius:30px;box-shadow:0 30px 80px rgba(255,107,157,0.6);text-align:center;font-size:22px;max-width:500px;border:5px solid #ff6b9d;font-weight:600;animation:pulse 2s infinite;display:none;z-index:300}
-@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}
-@media(max-width:768px){.cat{width:75px;height:75px;font-size:24px;padding:6px}.cat span{font-size:18px !important}.collected-list{bottom:55px;left:10px;font-size:14px}}
+*{margin:0;padding:0;box-sizing:border-box}body{height:100vh;background:linear-gradient(-45deg,#ff9a9e,#fecfef,#a8e6cf,#dcedc1,#ffeaa7);background-size:600% 600%;animation:gradientShift 25s ease infinite;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;cursor:pointer;position:relative}
+@keyframes gradientShift{0%{background-position:0% 50%}25%{background-position:100% 50%}50%{background-position:100% 100%}75%{background-position:0% 100%}100%{background-position:0% 50%}}
+
+.header{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(255,255,255,0.9));padding:18px 35px;border-radius:50px;box-shadow:0 20px 50px rgba(0,0,0,0.25);font-size:20px;font-weight:700;z-index:100;backdrop-filter:blur(25px);border:2px solid rgba(255,255,255,0.5);text-shadow:0 2px 4px rgba(0,0,0,0.1)}
+.header span{color:#ff6b9d;font-size:24px;text-shadow:0 0 10px rgba(255,107,157,0.5)}
+
+.cat{position:absolute;width:95px;height:95px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:32px;font-weight:700;transition:all 0.6s cubic-bezier(0.25,0.46,0.45,0.94);user-select:none;cursor:pointer;box-shadow:0 18px 45px rgba(0,0,0,0.4);backdrop-filter:blur(15px);animation:floatMove 10s infinite cubic-bezier(0.4,0,0.2,1);padding:10px;position:relative;overflow:hidden}
+.cat::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:50%;background:linear-gradient(45deg,rgba(255,255,255,0.3),rgba(255,255,255,0.1));opacity:0;transition:opacity 0.3s}
+.cat:hover::before{opacity:1}
+.cat span{font-size:22px !important;line-height:1 !important;margin-top:-4px !important;font-weight:800 !important;text-shadow:0 1px 3px rgba(0,0,0,0.3)}
+
+@keyframes floatMove{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}20%{transform:translateY(-15px) rotate(72deg) scale(1.02)}40%{transform:translateY(10px) rotate(144deg) scale(0.98)}60%{transform:translateY(-25px) rotate(216deg) scale(1.05)}80%{transform:translateY(5px) rotate(288deg) scale(1)}100%{transform:translateY(0) rotate(360deg) scale(1);opacity:1}}
+.cat:nth-child(odd){animation-direction:reverse;animation-duration:12s}
+.cat:nth-child(3n){animation-duration:14s}
+.cat:nth-child(5n){animation-duration:8s}
+.cat:hover{transform:scale(1.4) rotate(20deg) translateY(-20px)!important;z-index:30;filter:drop-shadow(0 0 40px currentColor);animation-play-state:paused}
+.cat.collected{opacity:0.25;transform:scale(0.75) translateY(-30px) rotate(360deg);pointer-events:none;animation:collectedVictory 3s ease-in-out infinite;border:4px solid rgba(255,255,255,0.9);box-shadow:0 0 40px rgba(255,107,157,0.8),inset 0 0 20px rgba(255,255,255,0.3)}
+@keyframes collectedVictory{0%,100%{box-shadow:0 0 40px rgba(255,107,157,0.8),inset 0 0 20px rgba(255,255,255,0.3);transform:scale(0.75) translateY(-30px) rotate(360deg)}50%{box-shadow:0 0 60px rgba(255,107,157,1),inset 0 0 30px rgba(255,255,255,0.5);transform:scale(0.85) translateY(-40px) rotate(390deg)}}
+
+.message{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,rgba(255,255,255,0.99),rgba(255,248,255,0.95));padding:35px;border-radius:30px;box-shadow:0 30px 80px rgba(0,0,0,0.4);text-align:center;font-size:22px;max-width:480px;border:4px solid linear-gradient(45deg,#ff6b9d,#4ecdc4);backdrop-filter:blur(25px);z-index:200;animation:fadeInOut 4.5s forwards;font-weight:600}
+@keyframes fadeInOut{0%{opacity:0;transform:translate(-50%,-50%) scale(0.7) rotate(-5deg)}20%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0deg)}80%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-25%) scale(1.1) rotate(5deg)}}
+
+.collected-count{position:fixed;bottom:25px;right:25px;background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.9));padding:20px;border-radius:25px;font-size:19px;font-weight:700;box-shadow:0 15px 40px rgba(0,0,0,0.25);z-index:100;color:#ff6b9d;border:2px solid rgba(255,107,157,0.3);min-width:140px;text-align:center}
+.collected-list{position:fixed;bottom:75px;left:25px;background:linear-gradient(135deg,rgba(255,255,255,0.97),rgba(255,255,255,0.92));padding:20px;border-radius:25px;font-size:17px;font-weight:700;box-shadow:0 15px 40px rgba(0,0,0,0.25);z-index:100;max-width:320px;max-height:140px;overflow-y:auto;border:2px solid rgba(78,205,196,0.4)}
+.collected-list .item{display:inline-block;margin:4px 6px;padding:8px 12px;background:linear-gradient(135deg,rgba(255,107,157,0.25),rgba(78,205,196,0.25));border-radius:20px;border:3px solid rgba(255,107,157,0.6);color:#ff6b9d;font-weight:700;box-shadow:0 4px 15px rgba(0,0,0,0.15);animation:popIn 0.5s ease-out}
+
+@keyframes popIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+
+.hearts{position:fixed;pointer-events:none;font-size:24px;z-index:150;animation:floatHearts 4s forwards}
+@keyframes floatHearts{0%{opacity:1;transform:translateY(0) scale(1) rotate(0deg)}30%{opacity:1;transform:translateY(-40px) scale(1.3) rotate(180deg)}100%{opacity:0;transform:translateY(-150px) scale(1.8) rotate(720deg)}}
+
+.winmsg{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#ff9a9e,#fecfef,#ffd93d);color:#2d3436;padding:50px;border-radius:40px;box-shadow:0 40px 100px rgba(255,107,157,0.7);text-align:center;font-size:24px;max-width:550px;border:6px solid rgba(255,255,255,0.9);font-weight:700;animation:victoryPulse 3s infinite;display:none;z-index:300;backdrop-filter:blur(30px);line-height:1.6}
+.winmsg .phrase1{margin-bottom:25px;font-size:26px;color:#e17055;text-shadow:0 3px 6px rgba(0,0,0,0.3)}
+.winmsg .phrase2{font-size:22px;color:#00b894;background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(255,255,255,0.7));padding:15px 25px;border-radius:25px;display:inline-block;box-shadow:0 10px 30px rgba(0,0,0,0.2);border:3px solid #00cec9;margin-top:15px}
+
+@keyframes victoryPulse{0%,100%{transform:translate(-50%,-50%) scale(1);box-shadow:0 40px 100px rgba(255,107,157,0.7)}50%{transform:translate(-50%,-50%) scale(1.08);box-shadow:0 50px 120px rgba(255,107,157,0.9)}}
+
+@media(max-width:768px){.cat{width:80px;height:80px;font-size:26px;padding:8px}.cat span{font-size:19px !important}.header{font-size:18px;padding:15px 25px}.winmsg{padding:35px;font-size:20px}.collected-list{bottom:70px;left:15px;font-size:15px}}
 </style>
 </head>
 <body>
-<div class="header">🐱 Лови котов Менделеева, Анастасия! Кликай по порядку 💕 <span id="collected">0/15</span></div>
-<div class="collected-count">H → He → Li → Be → B → C → N → O → F → Ne → Na → Mg → Al → Si → P</div>
-<div class="collected-list" id="collectedList">Собрано: <span id="collectedItems"></span></div>
-<div class="message" id="msg"><div id="msgText">🐱 Начинай с H!</div></div>
-<div class="winmsg" id="winmsg">🎉 <strong>ПОЗДРАВЛЯЮ, АНАСТАСИЯ!</strong><br><br>"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь" 💕❤️</div>
+<div class="header">🐱✨ Лови котов Менделеева, Анастасия! Кликай строго по порядку 💕 <span id="collected">0/15</span></div>
+<div class="collected-count">Порядок: H → He → Li → Be → B → C → N → O → F → Ne → Na → Mg → Al → Si → P</div>
+<div class="collected-list" id="collectedList">🎯 Собрано: <span id="collectedItems"></span></div>
+<div class="message" id="msg"><div id="msgText">🐱💖 Начинай с H! Кликай котиков по порядку!</div></div>
+<div class="winmsg" id="winmsg">
+  <div class="phrase1">🎉 <strong>ПОЗДРАВЛЯЮ, АНАСТАСИЯ!</strong></div>
+  <div>"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь" 💕❤️</div>
+  <div class="phrase2">💎 "Я далеко не дурак, давай попробуем еще раз" 💎</div>
+</div>
 
 <script>
 const elements=['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P'];
 const colors=['#ff6b9d','#4ecdc4','#45b7d1','#f9ca24','#f0932b','#eb4d4b','#6c5ce7','#a29bfe','#fd79a8','#fdcb6e','#e17055','#00b894','#00cec9','#55a3ff','#3742fa'];
-const compliments=['Ты самая прекрасная! 💖','Твоя улыбка — волшебство! ✨','С тобой мир ярче! 🌟','Ты мой самый любимый котик! 🐱','Каждый день думаю о тебе! 💭','Ты невероятная! 😍','Люблю твои глазки! 👀','Ты — моя мечта! 💕','С тобой всё идеально! 🌹','Ты самая-самая! 👑'];
+const compliments=['Ты самая прекрасная! 💖','Твоя улыбка — волшебство! ✨','С тобой мир ярче! 🌟','Ты мой самый любимый котик! 🐱','Каждый день думаю о тебе! 💭','Ты невероятная! 😍','Люблю твои глазки! 👀','Ты — моя мечта! 💕','С тобой всё идеально! 🌹','Ты самая-самая! 👑','Ты звезда моей жизни! ⭐','С тобой каждый миг счастье! 🥰'];
 let collected=[],usedCompliments=[];
 
 function shuffleArray(array) {
@@ -53,21 +72,21 @@ function shuffleArray(array) {
 
 function updateCollectedDisplay() {
     const items = document.getElementById('collectedItems');
-    items.innerHTML = collected.map(el => `<span class="item">${el}</span>`).join('');
+    items.innerHTML = collected.map((el,i) => `<span class="item" style="animation-delay:${i*0.1}s">${el}</span>`).join('');
     document.getElementById('collected').textContent=`${collected.length}/15`;
 }
 
 function createCat(el) {
     const cat=document.createElement('div');
     cat.className='cat';
-    cat.style.left=(Math.random()*70+15)+'vw';
-    cat.style.top=(Math.random()*60+20)+'vh';
+    cat.style.left=(Math.random()*65+17.5)+'vw';
+    cat.style.top=(Math.random()*55+22.5)+'vh';
     const colorIndex = elements.indexOf(el);
-    cat.style.background=`linear-gradient(135deg,${colors[colorIndex]},${colors[colorIndex]}cc)`;
+    cat.style.background=`linear-gradient(135deg,${colors[colorIndex]},${colors[colorIndex]}dd)`;
     cat.innerHTML=`🐱<br><span>${el}</span>`;
     cat.onclick=()=>{
         if(collected.includes(el)){
-            showCompliment('Этот котик уже твой! 😻');
+            showCompliment('Этот котик уже твой! 😻💕');
             return
         }
         const nextIndex = collected.length;
@@ -78,10 +97,10 @@ function createCat(el) {
             showCompliment(getUniqueCompliment());
             createHearts();
             if(collected.length===15){
-                setTimeout(()=>document.getElementById('winmsg').style.display='block',1500)
+                setTimeout(()=>document.getElementById('winmsg').style.display='block',2000)
             }
         } else {
-            showCompliment(`Нужен следующий: ${elements[nextIndex]} 🐾`)
+            showCompliment(`❌ Нужен следующий: <strong>${elements[nextIndex]}</strong> 🐾`)
         }
     };
     return cat;
@@ -109,27 +128,33 @@ function getUniqueCompliment(){
 function showCompliment(text){
     document.getElementById('msgText').innerHTML=text;
     document.getElementById('msg').style.animation='none';
-    setTimeout(()=>{document.getElementById('msg').style.animation='fadeInOut 4s forwards'},10)
+    setTimeout(()=>{document.getElementById('msg').style.animation='fadeInOut 4.5s forwards'},10)
 }
 
 function createHearts(){
-    for(let i=0;i<15;i++)setTimeout(createHeart,60*i)
+    const hearts=['💕','💖','💗','💓','💞','💝','✨','🌟','⭐'];
+    for(let i=0;i<20;i++){
+        setTimeout(()=>{
+            createHeart(hearts[Math.floor(Math.random()*hearts.length)]);
+        },80*i)
+    }
 }
 
-function createHeart(){
+function createHeart(emoji){
     const h=document.createElement('div');
     h.className='hearts';
-    h.innerHTML='💕';
-    h.style.left=Math.random()*100+'vw';
+    h.innerHTML=emoji;
+    h.style.left=(Math.random()*100)+'vw';
     h.style.top='90vh';
-    h.style.animationDelay=Math.random()*0.2+'s';
+    h.style.fontSize=(20+Math.random()*10)+'px';
+    h.style.animationDelay=(Math.random()*0.3)+'s';
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),3e3)
+    setTimeout(()=>h.remove(),4000)
 }
 
 initCats();
 document.body.onclick=e=>{
-    if(!e.target.closest('.message,.winmsg,.cat'))createHeart()
+    if(!e.target.closest('.message,.winmsg,.cat'))createHeart('💕')
 }
 </script>
 </body>
