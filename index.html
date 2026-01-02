@@ -56,7 +56,6 @@ body {
   padding:10px 24px;border-radius:25px;font-size:16px;font-weight:600;
   color:#fff;box-shadow:0 8px 25px rgba(0,0,0,0.3);z-index:100;
   border:1px solid rgba(255,255,255,0.2);pointer-events:none;
-  user-select: none;
 }
 .header span{color:#ffd700;font-weight:800}
 
@@ -67,7 +66,6 @@ body {
   box-shadow:0 30px 80px rgba(0,0,0,0.5);text-align:center;font-size:16px;
   max-width:480px;border:3px solid rgba(30,60,114,0.8);z-index:400;
   animation:instructionSlide 0.8s ease-out forwards;
-  user-select: none;
 }
 .instruction .title {
   color:#1e3c72;font-weight:800;font-size:22px;margin-bottom:18px;
@@ -120,31 +118,33 @@ body {
 .cat {
   position:absolute;width:55px;height:55px;border-radius:50%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  font-size:19px;font-weight:900;color:#000;
-  transition:all 0.3s ease-out;
+  font-size:19px;font-weight:900;color:#fff;
   cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.4);
-  backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.4);
+  backdrop-filter:blur(10px);border:3px solid rgba(255,255,255,0.6);
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   pointer-events:auto;
   will-change: transform;
+  transition: none;
 }
-.cat span{font-size:12px!important;line-height:1;font-weight:900!important}
+.cat span{font-size:12px!important;line-height:1;font-weight:900!important;text-shadow:1px 1px 2px rgba(0,0,0,0.5)}
 
 .cat:hover {
-  transform:scale(1.2) rotate(15deg) translateY(-8px)!important;
-  z-index:50;box-shadow:0 20px 40px rgba(0,0,0,0.7)
+  transform:scale(1.25) !important;
+  z-index:50;box-shadow:0 20px 40px rgba(0,0,0,0.8) !important;
 }
+
 .cat.collected {
-  opacity:0.2;transform:scale(0.6) translateY(-12px);
+  opacity:0.3;transform:scale(0.7);
   pointer-events:none;animation:collectedPulse 2s infinite;
-  box-shadow:0 0 25px rgba(255,215,0,0.8);border-color:rgba(255,215,0,0.7)
+  box-shadow:0 0 30px rgba(255,215,0,1);border-color:rgba(255,215,0,1);
+  filter: drop-shadow(0 0 10px rgba(255,215,0,0.8));
 }
 @keyframes collectedPulse {
-  0%,100%{opacity:0.2;box-shadow:0 0 25px rgba(255,215,0,0.8)}
-  50%{opacity:0.35;box-shadow:0 0 40px rgba(255,215,0,1)}
+  0%,100%{opacity:0.3;transform:scale(0.7)}
+  50%{opacity:0.5;transform:scale(0.85)}
 }
 
 .message {
@@ -155,7 +155,6 @@ body {
   border:2px solid rgba(255,255,255,0.8);z-index:200;
   animation:fadeInOut 3.5s forwards;
   pointer-events:none;
-  user-select: none;
 }
 @keyframes fadeInOut {
   0%{opacity:0;transform:translate(-50%,-50%) scale(0.9)}
@@ -173,14 +172,14 @@ body {
   backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
   font-size:14px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
   border:1px solid rgba(255,255,255,0.2);min-width:100px;
-  text-align:center;user-select: none;
+  text-align:center;
 }
 .collected-list {
   position:fixed;bottom:40px;left:12px;background:rgba(255,255,255,0.15);
   backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
   font-size:13px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
   max-width:240px;max-height:95px;overflow-y:auto;
-  border:1px solid rgba(255,255,255,0.2);user-select: none;
+  border:1px solid rgba(255,255,255,0.2);
 }
 .collected-list .item {
   display:inline-block;margin:1px 2px;padding:3px 7px;background:rgba(255,255,255,0.3);
@@ -201,7 +200,6 @@ body {
   max-width:480px;border:3px solid rgba(30,60,114,0.9);z-index:300;
   animation:victoryPulse 2.5s infinite;line-height:1.5;
   pointer-events:none;
-  user-select: none;
 }
 .winmsg .final-phrase {
   display:block;margin:18px 0;padding:20px 25px;
@@ -210,7 +208,6 @@ body {
   box-shadow:0 10px 30px rgba(30,60,114,0.3);
   color:#1e3c72;font-weight:700;font-size:16px;letter-spacing:0.4px;
   position:relative;overflow:hidden;animation:phraseGlow 3s infinite;
-  backdrop-filter:blur(10px);
 }
 .winmsg .final-phrase:nth-child(2){animation-delay:0.3s}
 .winmsg .final-phrase:nth-child(3){animation-delay:0.6s}
@@ -233,7 +230,13 @@ body {
 <script>
 const elements=['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P'];
 const colors=['#e91e63','#4db6ac','#2196f3','#ffeb3b','#ff9800','#f44336','#9c27b0','#cddc39','#e91e63','#ffeb3b','#f44336','#26a69a','#26c6da','#3f51b5','#9e9e9e'];
-const paths = ['path1','path2','path3','path4'];
+
+let collected = [];
+let usedCompliments = [];
+let gameStarted = false;
+let catsContainer;
+let cats = [];
+let rafId;
 
 const compliments = [
   '«Смотри, какая дорога за нами…»',
@@ -248,17 +251,10 @@ const compliments = [
   '«Мы можем дать друг другу время, но не отступим»',
   '«Мне нужна ты в моём будущем. Поэтому давай продержимся»',
   '«Наш общий «фундамент» слишком крепок, чтобы его могло поколебать»',
-  '«Иногда жизнь проверяет нас на прочность. Дава́й докажем, что мы её выдержим»',
+  '«Иногда жизнь проверяет нас на прочность. Давай докажем, что мы её выдержим»',
   '«Я верю в нас. Даже когда трудно. Особенно когда трудно»',
   '«Мы созданы друг для друга, просто нужно в это поверить»'
 ];
-
-let collected = [];
-let usedCompliments = [];
-let gameStarted = false;
-let catsContainer;
-let cats = [];
-let rafId;
 
 function startGame() {
   document.getElementById('instruction').style.display = 'none';
@@ -279,9 +275,7 @@ function shuffleArray(array) {
 
 function getRandomCompliment() {
   const available = compliments.filter((_, i) => !usedCompliments.includes(i));
-  if (available.length === 0) {
-    usedCompliments = [];
-  }
+  if (available.length === 0) usedCompliments = [];
   const idx = Math.floor(Math.random() * available.length);
   const complimentIdx = compliments.indexOf(available[idx]);
   usedCompliments.push(complimentIdx);
@@ -291,27 +285,30 @@ function getRandomCompliment() {
 function updateCollectedDisplay() {
   const itemsSpan = document.getElementById('collectedItems');
   const collectedSpan = document.getElementById('collected');
-  
   itemsSpan.innerHTML = collected.map(el => `<span class="item">${el}</span>`).join('');
   collectedSpan.textContent = `${collected.length}/15`;
 }
 
-function createCat(el, pathIndex) {
+function createCat(el, index) {
   const cat = document.createElement('div');
-  cat.className = `cat ${paths[pathIndex % paths.length]}`;
+  cat.className = 'cat';
   cat.dataset.element = el;
   
   const i = elements.indexOf(el);
   cat.style.background = `linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
   cat.innerHTML = `🐱<br><span>${el}</span>`;
   
-  // Физика кота
-  cat.vx = (Math.random() - 0.5) * 0.8;
-  cat.vy = (Math.random() - 0.5) * 0.8;
+  // Инициализация физики с БОЛЬШИМИ скоростями
   cat.radius = 27.5;
   cat.isCollected = false;
+  cat.angle = Math.random() * Math.PI * 2;
+  cat.speed = 1.5 + Math.random() * 2;
+  cat.vx = Math.cos(cat.angle) * cat.speed;
+  cat.vy = Math.sin(cat.angle) * cat.speed;
+  cat.rotation = 0;
+  cat.rotationSpeed = (Math.random() - 0.5) * 10;
   
-  cat.addEventListener('click', function handleCatClick(e) {
+  cat.addEventListener('click', function(e) {
     e.preventDefault();
     e.stopPropagation();
     
@@ -321,22 +318,20 @@ function createCat(el, pathIndex) {
     if (el === elements[next]) {
       collected.push(el);
       cat.isCollected = true;
-      cat.classList.add('collected');
       cat.vx = 0;
       cat.vy = 0;
+      cat.classList.add('collected');
       updateCollectedDisplay();
       showCompliment(getRandomCompliment());
       createHearts();
       
       if (collected.length === 15) {
-        setTimeout(() => {
-          document.getElementById('winmsg').style.display = 'block';
-        }, 1200);
+        setTimeout(() => document.getElementById('winmsg').style.display = 'block', 1200);
       }
     } else {
       showCompliment(elements[next]);
     }
-  }, { passive: false });
+  });
   
   return cat;
 }
@@ -349,101 +344,130 @@ function initCats() {
   shuffledElements.forEach((el, index) => {
     const cat = createCat(el, index);
     
-    // Начальные позиции по путям
-    const pathStarts = [
-      {x: 5, y: 10},
-      {x: 75, y: 25},
-      {x: 15, y: 45},
-      {x: 45, y: 15}
-    ];
-    const start = pathStarts[index % 4];
-    cat.x = (start.x * window.innerWidth) / 100;
-    cat.y = (start.y * window.innerHeight) / 100;
+    // Распределение по экрану
+    cat.x = 50 + (Math.random() - 0.5) * window.innerWidth * 0.6;
+    cat.y = 50 + (Math.random() - 0.5) * window.innerHeight * 0.6;
     
-    cat.style.left = cat.x + 'px';
-    cat.style.top = cat.y + 'px';
+    cat.style.left = `${cat.x}px`;
+    cat.style.top = `${cat.y}px`;
     
     catsContainer.appendChild(cat);
     cats.push(cat);
   });
   
-  // Запуск физики
   animate();
 }
 
-function checkCollision(cat1, cat2) {
-  const dx = cat2.x + cat2.radius - (cat1.x + cat1.radius);
-  const dy = cat2.y + cat2.radius - (cat1.y + cat1.radius);
-  const dist = Math.sqrt(dx * dx + dy * dy);
-  return dist < cat1.radius + cat2.radius;
+function checkCollision(a, b) {
+  const dx = b.x + b.radius - (a.x + a.radius);
+  const dy = b.y + b.radius - (a.y + a.radius);
+  return Math.sqrt(dx * dx + dy * dy) < a.radius + b.radius;
 }
 
-function resolveCollision(cat1, cat2) {
-  const dx = cat2.x - cat1.x;
-  const dy = cat2.y - cat1.y;
-  const dist = Math.sqrt(dx * dx + dy * dy);
-  
-  // Нормализация
-  const nx = dx / dist;
-  const ny = dy / dist;
+function resolveCollision(a, b) {
+  // Расчет нормали столкновения
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  const nx = dx / distance;
+  const ny = dy / distance;
   
   // Относительная скорость
-  const dvx = cat2.vx - cat1.vx;
-  const dvy = cat2.vy - cat1.vy;
+  const relativeVelocity = { x: b.vx - a.vx, y: b.vy - a.vy };
   
-  // Компонент скорости вдоль линии столкновения
-  const impulse = 2 * (dvx * nx + dvy * ny) / 2;
+  // Проекция скорости на нормаль
+  const speed = relativeVelocity.x * nx + relativeVelocity.y * ny;
   
-  // Обмен скоростями
-  cat1.vx += impulse * nx * 0.8;
-  cat1.vy += impulse * ny * 0.8;
-  cat2.vx -= impulse * nx * 0.8;
-  cat2.vy -= impulse * ny * 0.8;
+  if (speed > 0) return; // Разлетаются
   
-  // Разделение при пересечении
-  const overlap = cat1.radius + cat2.radius - dist;
+  // Коэффициент упругости
+  const impulse = 2 * speed / 2 * 1.1;
+  
+  // Применяем импульс
+  a.vx += impulse * nx;
+  a.vy += impulse * ny;
+  b.vx -= impulse * nx;
+  b.vy -= impulse * ny;
+  
+  // Разделяем прилипшие объекты
+  const overlap = a.radius + b.radius - distance + 1;
   if (overlap > 0) {
-    const sepX = nx * overlap * 0.5;
-    const sepY = ny * overlap * 0.5;
-    cat1.x -= sepX;
-    cat1.y -= sepY;
-    cat2.x += sepX;
-    cat2.y += sepY;
+    const separation = overlap / 2;
+    a.x -= nx * separation;
+    a.y -= ny * separation;
+    b.x += nx * separation;
+    b.y += ny * separation;
   }
 }
 
+function updateBounds() {
+  const bounds = {
+    left: 0,
+    top: 0,
+    right: window.innerWidth,
+    bottom: window.innerHeight
+  };
+  return bounds;
+}
+
+let animationId;
 function animate() {
+  const bounds = updateBounds();
+  
   cats.forEach(cat => {
-    if (cat.isCollected) return;
+    if (cat.isCollected) {
+      cat.rotation += cat.rotationSpeed * 0.5;
+      cat.style.transform = `rotate(${cat.rotation}deg)`;
+      return;
+    }
     
-    // Обновление позиции
+    // Обновляем позицию
     cat.x += cat.vx;
     cat.y += cat.vy;
+    cat.rotation += cat.rotationSpeed;
     
-    // Отскок от стен
-    if (cat.x - cat.radius < 0 || cat.x + cat.radius > window.innerWidth) {
-      cat.vx *= -0.9;
-      cat.x = Math.max(cat.radius, Math.min(window.innerWidth - cat.radius, cat.x));
+    // Столкновение со стенами
+    if (cat.x - cat.radius < bounds.left) {
+      cat.x = bounds.left + cat.radius;
+      cat.vx *= -1.05; // Немного ускорение при отскоке
     }
-    if (cat.y - cat.radius < 0 || cat.y + cat.radius > window.innerHeight) {
-      cat.vy *= -0.9;
-      cat.y = Math.max(cat.radius, Math.min(window.innerHeight - cat.radius, cat.y));
+    if (cat.x + cat.radius > bounds.right) {
+      cat.x = bounds.right - cat.radius;
+      cat.vx *= -1.05;
+    }
+    if (cat.y - cat.radius < bounds.top) {
+      cat.y = bounds.top + cat.radius;
+      cat.vy *= -1.05;
+    }
+    if (cat.y + cat.radius > bounds.bottom) {
+      cat.y = bounds.bottom - cat.radius;
+      cat.vy *= -1.05;
     }
     
-    // Трение
-    cat.vx *= 0.98;
-    cat.vy *= 0.98;
+    // Минимальное трение для постоянного движения
+    cat.vx *= 0.995;
+    cat.vy *= 0.995;
     
-    // Обновление позиции DOM
-    cat.style.left = cat.x + 'px';
-    cat.style.top = cat.y + 'px';
+    // Добавляем случайное возмущение для живости
+    if (Math.random() < 0.02) {
+      cat.vx += (Math.random() - 0.5) * 0.3;
+      cat.vy += (Math.random() - 0.5) * 0.3;
+    }
     
-    // Вращение
-    const rotate = parseFloat(cat.style.transform?.match(/rotate\(([^)]+)\)/)?.[1] || '0deg') || 0;
-    cat.style.transform = `rotate(${rotate + cat.vx * 2}deg)`;
+    // Ограничиваем максимальную скорость
+    const speed = Math.sqrt(cat.vx * cat.vx + cat.vy * cat.vy);
+    if (speed > 5) {
+      cat.vx = (cat.vx / speed) * 5;
+      cat.vy = (cat.vy / speed) * 5;
+    }
+    
+    // Обновляем DOM
+    cat.style.left = `${cat.x}px`;
+    cat.style.top = `${cat.y}px`;
+    cat.style.transform = `rotate(${cat.rotation}deg)`;
   });
   
-  // Проверка столкновений
+  // Столкновения между котами
   for (let i = 0; i < cats.length; i++) {
     for (let j = i + 1; j < cats.length; j++) {
       const cat1 = cats[i];
@@ -454,13 +478,24 @@ function animate() {
     }
   }
   
-  rafId = requestAnimationFrame(animate);
+  animationId = requestAnimationFrame(animate);
 }
+
+// Resize обработчик
+window.addEventListener('resize', () => {
+  if (cats.length > 0) {
+    cats.forEach(cat => {
+      if (!cat.isCollected) {
+        cat.x = Math.max(30, Math.min(window.innerWidth - 30, cat.x));
+        cat.y = Math.max(30, Math.min(window.innerHeight - 30, cat.y));
+      }
+    });
+  }
+});
 
 function showCompliment(text) {
   const msgText = document.getElementById('msgText');
   const msg = document.getElementById('msg');
-  
   msgText.textContent = text;
   msg.style.display = 'block';
   msg.style.animation = 'none';
@@ -469,21 +504,21 @@ function showCompliment(text) {
 }
 
 function createHearts() {
-  for(let i = 0; i < 15; i++) {
-    setTimeout(() => createHeart(), 40 * i);
+  for(let i = 0; i < 20; i++) {
+    setTimeout(() => createHeart(), 30 * i);
   }
 }
 
 function createHeart() {
-  const h = document.createElement('div');
-  h.className = 'hearts';
-  h.innerHTML = '💖';
-  h.style.left = (Math.random() * 90 + 5) + 'vw';
-  h.style.top = '85vh';
-  h.style.color = '#ff69b4';
-  h.style.pointerEvents = 'none';
-  document.body.appendChild(h);
-  setTimeout(() => h.remove(), 3500);
+  const heart = document.createElement('div');
+  heart.className = 'hearts';
+  heart.innerHTML = '💖';
+  heart.style.left = Math.random() * 90 + 5 + 'vw';
+  heart.style.top = '85vh';
+  heart.style.color = '#ff69b4';
+  heart.style.fontSize = (12 + Math.random() * 8) + 'px';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 3500);
 }
 </script>
 </body>
