@@ -3,173 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🐱 Коты Менделеева для Анастасии</title>
+<title>Коты Менделеева</title>
 <style>
 * {margin:0;padding:0;box-sizing:border-box}
 body {
   height:100vh;
-  background:linear-gradient(-45deg,#ff9a9e 0%,#fecfef 25%,#a8e6cf 50%,#dcedc1 75%,#ffeaa7 100%);
-  background-size:400% 400%;
-  animation:gradientShift 20s ease infinite;
-  overflow:hidden;
-  font-family:'Segoe UI',Tahoma,Arial,sans-serif;
+  background:linear-gradient(135deg,#1e3c72 0%,#2a5298 50%,#1e3c72 100%);
+  font-family:'Segoe UI',Arial,sans-serif;
   position:relative;
+  overflow:hidden;
   cursor:pointer;
 }
-@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-
 .header {
-  position:fixed;top:15px;left:50%;transform:translateX(-50%);
-  background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
-  padding:12px 28px;border-radius:40px;
-  box-shadow:0 12px 35px rgba(0,0,0,0.2);
-  font-size:18px;font-weight:700;z-index:100;
-  backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,0.6);
-  text-align:center;
+  position:fixed;top:12px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,0.1);backdrop-filter:blur(15px);
+  padding:10px 24px;border-radius:25px;font-size:16px;font-weight:600;
+  color:#fff;box-shadow:0 8px 25px rgba(0,0,0,0.3);z-index:100;
+  border:1px solid rgba(255,255,255,0.2)
 }
-.header span{color:#e91e63;font-size:20px;font-weight:800}
+.header span{color:#ffd700;font-weight:800}
 
 .cat {
-  position:absolute;width:55px;height:55px;border-radius:50%;
+  position:absolute;width:52px;height:52px;border-radius:50%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  font-size:20px;font-weight:800;
-  transition:all 0.5s cubic-bezier(0.25,0.8,0.25,1);
-  cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.25);
-  backdrop-filter:blur(10px);animation:floatMove 14s infinite ease-in-out;
-  padding:3px;overflow:hidden;
+  font-size:18px;font-weight:900;color:#000;
+  transition:all 0.4s ease-out;
+  cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.4);
+  backdrop-filter:blur(8px);animation:floatMove 16s infinite linear;
+  padding:2px;border:1px solid rgba(255,255,255,0.3)
 }
-.cat::before {
-  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
-  border-radius:50%;background:linear-gradient(45deg,rgba(255,255,255,0.4),transparent);
-  opacity:0;transition:opacity 0.3s;
-}
-.cat:hover::before{opacity:1}
-.cat span{font-size:13px!important;line-height:1!important;font-weight:900!important;text-shadow:0 1px 2px rgba(0,0,0,0.4)}
+.cat span{font-size:12px!important;line-height:1;font-weight:900!important}
 
 @keyframes floatMove {
-  0%,100%{transform:translateY(0) rotate(0deg) scale(1)}
-  25%{transform:translateY(-8px) rotate(90deg) scale(1.02)}
-  50%{transform:translateY(4px) rotate(180deg) scale(0.98)}
-  75%{transform:translateY(-4px) rotate(270deg) scale(1.01)}
+  0%{transform:translateY(0) rotate(0deg)}
+  25%{transform:translateY(-6px) rotate(90deg)}
+  50%{transform:translateY(3px) rotate(180deg)}
+  75%{transform:translateY(-3px) rotate(270deg)}
+  100%{transform:translateY(0) rotate(360deg)}
 }
-.cat:nth-child(odd){animation-direction:reverse;animation-duration:16s}
+.cat:nth-child(odd){animation-direction:reverse}
 .cat:nth-child(3n){animation-duration:18s}
-.cat:nth-child(5n){animation-duration:12s}
-.cat:nth-child(7n){animation-duration:20s}
+.cat:nth-child(5n){animation-duration:14s}
 .cat:hover {
-  transform:scale(1.15) rotate(10deg) translateY(-6px)!important;
-  z-index:50;filter:drop-shadow(0 0 20px currentColor);
-  animation-play-state:paused
+  transform:scale(1.1) rotate(5deg) translateY(-4px)!important;
+  z-index:50;box-shadow:0 12px 30px rgba(0,0,0,0.6)
 }
 .cat.collected {
-  opacity:0.2;transform:scale(0.5) translateY(-10px) rotate(360deg);
-  pointer-events:none;animation:collectedVictory 2.5s infinite;
-  border:2px solid rgba(255,255,255,0.8);
-  box-shadow:0 0 20px rgba(233,30,99,0.6)
+  opacity:0.15;transform:scale(0.45) translateY(-8px);
+  pointer-events:none;animation:collectedPulse 2s infinite;
+  box-shadow:0 0 15px rgba(255,215,0,0.6);border-color:rgba(255,215,0,0.5)
 }
-@keyframes collectedVictory {
-  0%,100%{box-shadow:0 0 20px rgba(233,30,99,0.6);transform:scale(0.5) translateY(-10px)}
-  50%{box-shadow:0 0 30px rgba(233,30,99,0.9);transform:scale(0.55) translateY(-14px)}
+@keyframes collectedPulse {
+  0%,100%{opacity:0.15;box-shadow:0 0 15px rgba(255,215,0,0.6)}
+  50%{opacity:0.25;box-shadow:0 0 25px rgba(255,215,0,0.9)}
 }
 
 .message {
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(255,248,255,0.92));
-  padding:25px;border-radius:25px;box-shadow:0 20px 60px rgba(0,0,0,0.3);
-  text-align:center;font-size:19px;max-width:420px;
-  border:3px solid linear-gradient(45deg,#e91e63,#4db6ac);
-  backdrop-filter:blur(20px);z-index:200;
-  animation:fadeInOut 4s forwards;font-weight:600
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);
+  padding:20px;border-radius:20px;box-shadow:0 15px 50px rgba(0,0,0,0.4);
+  text-align:center;font-size:17px;max-width:380px;font-weight:500;
+  border:2px solid rgba(255,255,255,0.8);z-index:200;
+  animation:fadeInOut 3.5s forwards
 }
 @keyframes fadeInOut {
-  0%{opacity:0;transform:translate(-50%,-50%) scale(0.8)}
+  0%{opacity:0;transform:translate(-50%,-50%) scale(0.9)}
   20%{opacity:1;transform:translate(-50%,-50%) scale(1)}
   80%{opacity:1;transform:translate(-50%,-50%) scale(1)}
-  100%{opacity:0;transform:translate(-50%,-35%) scale(1.05)}
+  100%{opacity:0;transform:translate(-50%,-30%) scale(1.05)}
 }
 
 .collected-count {
-  position:fixed;bottom:15px;right:15px;
-  background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.9));
-  padding:12px 16px;border-radius:20px;font-size:15px;font-weight:700;
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:100;color:#e91e63;
-  border:2px solid rgba(233,30,99,0.3);min-width:105px;text-align:center
+  position:fixed;bottom:12px;right:12px;background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
+  font-size:14px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
+  z-index:100;border:1px solid rgba(255,255,255,0.2);min-width:100px;
+  text-align:center
 }
 .collected-list {
-  position:fixed;bottom:48px;left:15px;
-  background:linear-gradient(135deg,rgba(255,255,255,0.96),rgba(255,255,255,0.91));
-  padding:12px 16px;border-radius:18px;font-size:14px;font-weight:700;
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:100;max-width:260px;
-  max-height:105px;overflow-y:auto;border:2px solid rgba(77,182,172,0.4)
+  position:fixed;bottom:40px;left:12px;background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(15px);padding:10px 14px;border-radius:16px;
+  font-size:13px;font-weight:600;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.3);
+  z-index:100;max-width:240px;max-height:95px;overflow-y:auto;
+  border:1px solid rgba(255,255,255,0.2)
 }
 .collected-list .item {
-  display:inline-block;margin:2px 3px;padding:4px 8px;
-  background:linear-gradient(135deg,rgba(233,30,99,0.2),rgba(77,182,172,0.2));
-  border-radius:12px;border:2px solid rgba(233,30,99,0.5);
-  color:#e91e63;font-weight:700;font-size:13px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.15);animation:popIn 0.4s ease-out
+  display:inline-block;margin:1px 2px;padding:3px 7px;background:rgba(255,255,255,0.3);
+  border-radius:10px;border:1px solid rgba(255,255,255,0.5);color:#fff;
+  font-size:12px;font-weight:700;margin-bottom:2px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.2);animation:popIn 0.3s ease-out
 }
-@keyframes popIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes popIn{0%{transform:scale(0)}100%{transform:scale(1)}}
 
-.hearts {
-  position:fixed;pointer-events:none;font-size:18px;
-  z-index:150;animation:floatHearts 3.5s forwards
-}
-@keyframes floatHearts {
-  0%{opacity:1;transform:translateY(0) scale(1)}
-  100%{opacity:0;transform:translateY(-110px) scale(1.3)}
-}
+.hearts{position:fixed;pointer-events:none;font-size:16px;z-index:150;animation:floatHearts 3s forwards}
+@keyframes floatHearts{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-100px) scale(1.2)}}
 
 .winmsg {
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:linear-gradient(135deg,#ff9a9e,#fecfef,#ffd93d);
-  color:#2d3436;padding:35px;border-radius:28px;
-  box-shadow:0 30px 80px rgba(233,30,99,0.6);
-  text-align:center;font-size:19px;max-width:460px;
-  border:4px solid rgba(255,255,255,0.9);font-weight:700;
-  animation:victoryPulse 2.5s infinite;display:none;z-index:300;
-  backdrop-filter:blur(25px);line-height:1.5
+  background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
+  backdrop-filter:blur(25px);padding:28px;border-radius:22px;
+  box-shadow:0 25px 70px rgba(0,0,0,0.5);text-align:center;font-size:18px;
+  max-width:440px;border:2px solid rgba(255,255,255,0.9);font-weight:500;
+  animation:victoryPulse 2s infinite;display:none;z-index:300;line-height:1.4
 }
-.winmsg .phrase1 {
-  margin-bottom:15px;font-size:21px;color:#e91e63;
-  text-shadow:0 2px 4px rgba(0,0,0,0.3);font-weight:900
-}
+.winmsg .phrase1{display:none}
+.winmsg div{font-size:17px;color:#1e3c72;margin:8px 0;font-weight:600}
 .winmsg .phrase2 {
-  font-size:17px;color:#4db6ac;background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
-  padding:10px 16px;border-radius:16px;display:inline-block;
-  box-shadow:0 6px 20px rgba(0,0,0,0.2);border:3px solid #4db6ac;
-  margin-top:8px;font-weight:700
+  font-size:16px;color:#2a5298;background:rgba(255,255,255,0.7);
+  padding:8px 14px;border-radius:14px;display:inline-block;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);border:2px solid rgba(42,82,152,0.4);
+  margin:6px 0;font-weight:700
 }
-@keyframes victoryPulse {
-  0%,100%{transform:translate(-50%,-50%) scale(1)}
-  50%{transform:translate(-50%,-50%) scale(1.03)}
-}
+@keyframes victoryPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.02)}}
 
 @media(max-width:768px){
-  .cat{width:50px;height:50px;font-size:18px;padding:2px}
-  .cat span{font-size:12px!important}
-  .header{font-size:16px;padding:10px 20px}
-  .winmsg{padding:25px;font-size:17px}
-  .collected-list{bottom:42px;left:10px;font-size:13px;max-width:240px}
-  .collected-count{bottom:10px;right:10px}
+  .cat{width:46px;height:46px;font-size:16px}
+  .cat span{font-size:11px!important}
+  .header{font-size:14px;padding:8px 18px}
+  .winmsg{padding:22px;font-size:16px;max-width:90vw}
+  .collected-list{bottom:36px;left:8px;font-size:12px}
+  .collected-count{bottom:8px;right:8px}
 }
 </style>
 </head>
 <body>
-<div class="header">🐱 Лови котов Менделеева, Анастасия! Кликай строго по порядку <span id="collected">0/15</span></div>
+<div class="header">Коты Менделеева. Кликай по порядку <span id="collected">0/15</span></div>
 <div class="collected-count">H→He→Li→Be→B→C→N→O→F→Ne→Na→Mg→Al→Si→P</div>
 <div class="collected-list">Собрано: <span id="collectedItems"></span></div>
-<div class="message" id="msg"><div id="msgText">🐱 Начинай с H!</div></div>
+<div class="message" id="msg"><div id="msgText">Начинай с H</div></div>
 <div class="winmsg" id="winmsg">
-  <div class="phrase1">🎉 ПОЗДРАВЛЯЮ, АНАСТАСИЯ!</div>
-  <div>"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь" 💕❤️</div>
-  <div class="phrase2">💎 "Я далеко не дурак, давай попробуем еще раз" 💎</div>
+  <div>"Не обижайся, но ты не права, в том, что мы идем разными путями, это неправда, ты - мой путь и этим путем я буду идти всю жизнь"</div>
+  <div class="phrase2">"Я далеко не дурак, давай попробуем еще раз"</div>
 </div>
 
 <script>
 const elements=['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P'];
 const colors=['#e91e63','#4db6ac','#2196f3','#ffeb3b','#ff9800','#f44336','#9c27b0','#cddc39','#e91e63','#ffeb3b','#f44336','#26a69a','#26c6da','#3f51b5','#9e9e9e'];
-const compliments=['Прекрасная! 💖','Улыбка-волшебство! ✨','Мир ярче с тобой! 🌟','Любимый котик! 🐱','Думаю о тебе! 💭','Невероятная! 😍','Люблю глазки! 👀','Моя мечта! 💕','Всё идеально! 🌹','Самая-самая! 👑','Звезда жизни! ⭐','Счастье с тобой! 🥰'];
 let collected=[],usedCompliments=[];
 
 function shuffleArray(array){
@@ -181,81 +150,60 @@ function shuffleArray(array){
 }
 
 function updateCollectedDisplay(){
-  document.getElementById('collectedItems').innerHTML=collected.map((el,i)=>`<span class="item" style="animation-delay:${i*.08}s">${el}</span>`).join('');
+  document.getElementById('collectedItems').innerHTML=collected.map(el=>`<span class="item">${el}</span>`).join('');
   document.getElementById('collected').textContent=`${collected.length}/15`
 }
 
-function createCat(el,index){
+function createCat(el){
   const cat=document.createElement('div');
   cat.className='cat';
-  const safeLeft=15+(Math.random()*65);
-  const safeTop=20+(Math.random()*50);
-  cat.style.left=safeLeft+'vw';
-  cat.style.top=safeTop+'vh';
-  const colorIndex=elements.indexOf(el);
-  cat.style.background=`linear-gradient(135deg,${colors[colorIndex]},${colors[colorIndex]}cc)`;
+  const x=12+(Math.random()*76);
+  const y=18+(Math.random()*54);
+  cat.style.left=`${x}vw`;
+  cat.style.top=`${y}vh`;
+  const i=elements.indexOf(el);
+  cat.style.background=`linear-gradient(135deg,${colors[i]},${colors[i]}88)`;
   cat.innerHTML=`🐱<br><span>${el}</span>`;
   cat.onclick=()=>{
-    if(collected.includes(el)){
-      showCompliment('Этот котик уже твой! 😻');
-      return
-    }
-    const nextIndex=collected.length;
-    if(el===elements[nextIndex]){
+    if(collected.includes(el))return showCompliment('Уже собран');
+    const next=collected.length;
+    if(el===elements[next]){
       collected.push(el);
       cat.classList.add('collected');
       updateCollectedDisplay();
-      showCompliment(getUniqueCompliment());
+      showCompliment('Верно!');
       createHearts();
-      if(collected.length===15){
-        setTimeout(()=>document.getElementById('winmsg').style.display='block',1500)
-      }
-    }else{
-      showCompliment(`Нужен: <strong>${elements[nextIndex]}</strong> 🐾`)
-    }
+      if(collected.length===15)setTimeout(()=>document.getElementById('winmsg').style.display='block',1200)
+    }else showCompliment(elements[next])
   };
   return cat
 }
 
 function initCats(){
-  const container=document.body;
-  shuffleArray([...elements]).forEach((el,index)=>{
-    container.appendChild(createCat(el,index))
-  })
-}
-
-function getUniqueCompliment(){
-  if(usedCompliments.length===compliments.length)usedCompliments=[];
-  let comp;
-  do{comp=compliments[Math.floor(Math.random()*compliments.length)]}while(usedCompliments.includes(comp));
-  usedCompliments.push(comp);return comp
+  shuffleArray([...elements]).forEach(el=>document.body.appendChild(createCat(el)))
 }
 
 function showCompliment(text){
-  document.getElementById('msgText').innerHTML=text;
-  const msg=document.getElementById('msg');
-  msg.style.animation='none';
-  setTimeout(()=>msg.style.animation='fadeInOut 4s forwards',10)
+  document.getElementById('msgText').textContent=text;
+  const m=document.getElementById('msg');
+  m.style.animation='none';
+  setTimeout(()=>m.style.animation='fadeInOut 3.5s forwards',10)
 }
 
 function createHearts(){
-  const hearts=['💕','💖','💗','✨','🌟'];
-  for(let i=0;i<12;i++)setTimeout(()=>createHeart(hearts[Math.floor(Math.random()*hearts.length)]),60*i)
+  for(let i=0;i<10;i++)setTimeout(()=>createHeart(),50*i)
 }
 
-function createHeart(emoji){
+function createHeart(){
   const h=document.createElement('div');
-  h.className='hearts';h.innerHTML=emoji;
-  h.style.left=(Math.random()*95+2.5)+'vw';
-  h.style.top='88vh';
+  h.className='hearts';h.innerHTML='✨';
+  h.style.left=(Math.random()*90+5)+'vw';
+  h.style.top='85vh';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),3500)
+  setTimeout(()=>h.remove(),3000)
 }
 
 initCats();
-document.body.onclick=e=>{
-  if(!e.target.closest('.message,.winmsg,.cat'))createHeart('💕')
-}
 </script>
 </body>
 </html>
